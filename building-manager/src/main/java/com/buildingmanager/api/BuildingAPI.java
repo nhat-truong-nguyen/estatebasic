@@ -10,17 +10,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.buildingmanager.entity.BuildingEntity;
+import com.buildingmanager.model.response.BuildingSearchResponse;
 import com.buildingmanager.repository.BuildingRepository;
+import com.buildingmanager.service.BuildingService;
 
 @RestController
 @RequestMapping("/api/building")
 public class BuildingAPI {
 
 	@Autowired
-	BuildingRepository buildingRepository;
+	BuildingService buildingService;
 
 	@GetMapping
-	public List<BuildingEntity> findBuildings(@RequestParam(value = "name", required = false) String name,
+	public List<BuildingSearchResponse> findBuildings(@RequestParam(value = "name", required = false) String name,
 			@RequestParam(value = "floorArea", required = false) Integer floorArea,
 			@RequestParam(value = "districtId", required = false) Integer districtId,
 			@RequestParam(value = "ward", required = false) String ward,
@@ -39,62 +41,62 @@ public class BuildingAPI {
 				&& rentPriceFrom != null && rentPriceTo != null && rentAreaFrom != null && rentAreaTo != null
 				&& rentTypeIds != null) {
 			
-			return buildingRepository.findByFullCondition(name, floorArea,
+			return buildingService.findByFullCondition(name, floorArea,
 					districtId, ward, street, numberOfBasement, direction,
 					level, rentPriceFrom, rentPriceTo, rentAreaFrom, rentAreaTo, rentTypeIds);
 		}
 		
 		if (!name.isEmpty()) {
-			return buildingRepository.findByName(name);
+			return buildingService.findByName(name);
 		}
 
 		if (floorArea != null) {
-			return buildingRepository.findByFloorArea(floorArea);
+			return buildingService.findByFloorArea(floorArea);
 		}
 
 		if (districtId != null) {
-			return buildingRepository.findByDistrictId(districtId);
+			return buildingService.findByDistrictId(districtId);
 		}
 
 		if (!ward.isEmpty()) {
-			return buildingRepository.findByWard(ward);
+			return buildingService.findByWard(ward);
 		}
 
 		if (!street.isEmpty()) {
-			return buildingRepository.findByStreet(street);
+			return buildingService.findByStreet(street);
 		}
 
 		if (numberOfBasement != null) {
-			return buildingRepository.findByNumberOfBasement(numberOfBasement);
+			return buildingService.findByNumberOfBasement(numberOfBasement);
 		}
 
 		if (!direction.isEmpty()) {
-			return buildingRepository.findByDirection(direction);
+			return buildingService.findByDirection(direction);
 		}
 
 		if (!level.isEmpty()) {
-			return buildingRepository.findByLevel(level);
+			return buildingService.findByLevel(level);
 		}
 
 		if (rentPriceFrom != null && rentPriceTo != null) {
-			return buildingRepository.findByRentPriceFromTo(rentPriceFrom, rentPriceTo);
+			return buildingService.findByRentPriceFromTo(rentPriceFrom, rentPriceTo);
 		} else if (rentPriceFrom != null) {
-			return buildingRepository.findByRentPriceFrom(rentPriceFrom);
+			return buildingService.findByRentPriceFrom(rentPriceFrom);
 		} else if (rentPriceTo != null) {
-			return buildingRepository.findByRentPriceTo(rentPriceTo);
+			return buildingService.findByRentPriceTo(rentPriceTo);
 		}
 
 		if (rentAreaFrom != null && rentAreaTo != null) {
-			return buildingRepository.findByRentAreaFromTo(rentAreaFrom, rentAreaTo);
+			return buildingService.findByRentAreaFromTo(rentAreaFrom, rentAreaTo);
 		}
 		if (rentAreaFrom != null) {
-			return buildingRepository.findByRentAreaFrom(rentAreaFrom);
+			return buildingService.findByRentAreaFrom(rentAreaFrom);
 		} else if (rentAreaTo != null) {
-			return buildingRepository.findByRentAreaTo(rentAreaTo);
+			return buildingService.findByRentAreaTo(rentAreaTo);
 		}
 
 		if (rentTypeIds != null) {
-			return buildingRepository.findByRentTypeId(rentTypeIds);
+			return buildingService.findByRentTypeId(rentTypeIds);
 		}
 		
 		return null;
