@@ -86,9 +86,7 @@ public class BaseRepositoryImpl<T> implements BaseRepository<T> {
 					statement.setInt(i + 1, (int) params[i]);
 				} else if (params[i] instanceof Byte) {
 					statement.setByte(i + 1, (byte) params[i]);
-				}
-
-				else if (params[i] instanceof Long) {
+				} else if (params[i] instanceof Long) {
 					statement.setLong(i + 1, (long) params[i]);
 				} else if (params[i] instanceof Double) {
 					statement.setDouble(i + 1, (double) params[i]);
@@ -98,11 +96,15 @@ public class BaseRepositoryImpl<T> implements BaseRepository<T> {
 					statement.setTimestamp(i + 1, (Timestamp) params[i]);
 				} else if (params[i] instanceof Boolean) {
 					statement.setBoolean(i + 1, (Boolean) params[i]);
+				} else if (params[i] instanceof Integer[]) {
+					Integer[] items = (Integer[]) params[i];
+					for (int j = 0; j < items.length; j++) {
+						statement.setInt(j + i + 1, items[j]);
+					}
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
 	}
-
 }
