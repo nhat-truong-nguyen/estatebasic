@@ -101,6 +101,12 @@ public class BaseRepositoryImpl<T> implements BaseRepository<T> {
 					for (int j = 0; j < items.length; j++) {
 						statement.setInt(j + i + 1, items[j]);
 					}
+				} else if (params[i] instanceof ArrayList) {
+					@SuppressWarnings("unchecked")
+					ArrayList<Object> items =  (ArrayList<Object>) params[i];
+					for (int j = 0; j < items.size(); j++) {
+						statement.setObject(j + i + 1, items.get(j));
+					}
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
