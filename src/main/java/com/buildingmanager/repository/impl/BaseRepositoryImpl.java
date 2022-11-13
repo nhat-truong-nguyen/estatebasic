@@ -104,8 +104,9 @@ public class BaseRepositoryImpl<T> implements BaseRepository<T> {
 				} else if (params[i] instanceof ArrayList) {
 					@SuppressWarnings("unchecked")
 					ArrayList<String> items = (ArrayList<String>) params[i];
+
 					for (int j = 0; j < items.size(); j++) {
-						statement.setObject(j + i + 1, items.get(j));
+						statement.setObject(i + j + 1, items.get(j));
 					}
 				}
 			} catch (SQLException e) {
