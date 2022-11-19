@@ -38,7 +38,6 @@ public class BuildingServiceImpl implements BuildingService {
 	private BuildingSearchResponse toBuildingDTO(BuildingEntity buildingEntity) {
 		BuildingSearchResponse buildingSearchResponse = new BuildingSearchResponse();
 		
-		buildingSearchResponse.setId(buildingEntity.getId());
 		buildingSearchResponse.setName(buildingEntity.getName());
 		buildingSearchResponse.setStreet(buildingEntity.getStreet());
 		buildingSearchResponse.setWard(buildingEntity.getWard());
@@ -66,10 +65,6 @@ public class BuildingServiceImpl implements BuildingService {
 		buildingSearchResponse.setMap(buildingEntity.getMap());
 		buildingSearchResponse.setImage(buildingEntity.getImage());
 		buildingSearchResponse.setCreatedDate(buildingEntity.getCreatedDate());
-		buildingSearchResponse.setModifiedDate(buildingSearchResponse.getModifiedDate());
-		buildingSearchResponse.setCreatedBy(buildingSearchResponse.getCreatedBy());
-		buildingSearchResponse.setModifiedBy(buildingSearchResponse.getModifiedBy());
-
 		return buildingSearchResponse;
 		
 	}
