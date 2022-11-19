@@ -22,16 +22,15 @@ public class BuildingRepositoryImpl extends BaseRepositoryImpl<BuildingEntity> i
 		StringBuilder finalQuery = new StringBuilder("SELECT * FROM building");
 		buildQueryWithJoin(params, types, finalQuery);
 		finalQuery.append("\nWHERE 1 = 1");
-		buildQueryWithoutJoin(params, types, finalQuery);
+		buildQueryWithoutJoin(params, finalQuery);
 		finalQuery.append("\nGROUP BY building.id");
 		return finalQuery.toString();
 	}
 	
-	private StringBuilder buildQueryWithoutJoin(Map<String, String> params, List<String> types, StringBuilder whereQuery) {
+	private StringBuilder buildQueryWithoutJoin(Map<String, String> params, StringBuilder whereQuery) {
 
 		String name = params.getOrDefault("name", null);
 		String floorArea = params.getOrDefault("floorArea", null);
-		String districtId = params.getOrDefault("districtId", null);
 		String ward = params.getOrDefault("ward", null);
 		String street = params.getOrDefault("street", null);
 		String numberOfBasement = params.getOrDefault("numberOfBasement", null);
@@ -39,8 +38,6 @@ public class BuildingRepositoryImpl extends BaseRepositoryImpl<BuildingEntity> i
 		String level = params.getOrDefault("level", null);
 		String rentPriceFrom = params.getOrDefault("rentPriceFrom", null);
 		String rentPriceTo = params.getOrDefault("rentPriceTo", null);
-		String rentAreaFrom = params.getOrDefault("rentAreaFrom", null);
-		String rentAreaTo = params.getOrDefault("rentAreaTo", null);
 		
 		if (ValidationUtil.isNotBlank(name)) {
 			whereQuery.append("\nAND building.name LIKE '%").append(name).append("%'");
@@ -48,10 +45,6 @@ public class BuildingRepositoryImpl extends BaseRepositoryImpl<BuildingEntity> i
 
 		if (ValidationUtil.isNotBlank(floorArea)) {
 			whereQuery.append("\nAND building.floorarea = ").append(floorArea);
-		}
-
-		if (ValidationUtil.isNotBlank(districtId)) {
-			whereQuery.append("\nAND building.districtid = ").append(districtId);
 		}
 
 		if (ValidationUtil.isNotBlank(ward)) {
@@ -82,37 +75,22 @@ public class BuildingRepositoryImpl extends BaseRepositoryImpl<BuildingEntity> i
 			whereQuery.append("\nAND building.rentprice <= ").append(rentPriceTo);
 		}
 		
-		if (ValidationUtil.isNotBlank(rentAreaFrom)) {
-			whereQuery.append("\nAND rentarea.value >= ")
-					 .append(rentAreaFrom);
-		}
-		
-		if (ValidationUtil.isNotBlank(rentAreaTo)) {
-			whereQuery.append("\nAND rentarea.value <= ")
-			 .append(rentAreaTo);
-		}
-				
-		
-		int countEmptyValue = 0;
-		for (int i = 0; i < types.size(); i++) {			
-			types.set(i, String.format("'%s'", types.get(i)));
-			if (ValidationUtil.isNotBlank(types.get(i))) {
-				countEmptyValue++;
-			} 
-		}
-		
-		if (countEmptyValue < types.size()) {
-			whereQuery.append(String.format("\nAND renttype.code IN(%s)", String.join(", ", types)));
-		}		
-		
 		return whereQuery;
 	}
 
 	public StringBuilder buildQueryWithJoin(Map<String, String> params, List<String> types,
 			StringBuilder joinQuery) {
-
+		
+		String districtCode = params.getOrDefault("districtCode", null);
 		String rentAreaFrom = params.getOrDefault("rentAreaFrom", null);
 		String rentAreaTo = params.getOrDefault("rentAreaTo", null);
+		String managerName = params.getOrDefault("managerName", null);
+		String managerPhone = params.getOrDefault("managerPhone", null);
+		
+		
+		if (ValidationUtil.isNotBlank(districtCode)) {
+			joinQuery.append("\nJOIN district on building.districtid = district.id");
+		}
 
 		if (ValidationUtil.isNotBlank(rentAreaFrom) || ValidationUtil.isNotBlank(rentAreaTo)) {
 			joinQuery.append("\nJOIN rentarea on building.id = rentarea.buildingid");
@@ -124,6 +102,49 @@ public class BuildingRepositoryImpl extends BaseRepositoryImpl<BuildingEntity> i
 					     .append("\nJOIN renttype on buildingrenttype.renttypeid = renttype.id");
 				break;
 			}
+		}
+		
+		if (ValidationUtil.isNotBlank(managerName) || ValidationUtil.isNotBlank(managerPhone)) {
+			joinQuery.append("\nJOIN assignmentbuilding on building.id = assignmentbuilding.buildingid")
+				     .append("\nJOIN users on users.id = assignmentbuilding.staffid");
+		}
+		
+		if (ValidationUtil.isNotBlank(districtCode)) {
+		     joinQuery.append("\nAND district.code = ").append(String.format("'%s'", districtCode));
+		}
+		
+		if (ValidationUtil.isNotBlank(rentAreaFrom)) {
+			joinQuery.append("\nAND rentarea.value >= ")
+					 .append(rentAreaFrom);
+		}
+		
+		if (ValidationUtil.isNotBlank(rentAreaTo)) {
+			joinQuery.append("\nAND rentarea.value <= ")
+			 .append(rentAreaTo);
+		}
+						
+		int countEmptyValue = 0;
+		for (int i = 0; i < types.size(); i++) {			
+			if (ValidationUtil.isBlank(types.get(i))) {
+				countEmptyValue++;
+			}
+			types.set(i, String.format("'%s'", types.get(i)));
+		}
+		
+		if (countEmptyValue < types.size()) {
+			joinQuery.append(String.format("\nAND renttype.code IN(%s)", String.join(", ", types)));
+		}
+		
+		if (ValidationUtil.isNotBlank(managerName)) {
+			joinQuery.append("\nAND users.fullname LIKE '%")
+					 .append(managerName)
+					 .append("%'");
+		}
+		
+		if (ValidationUtil.isNotBlank(managerPhone)) {
+			joinQuery.append("\nAND users.phone LIKE '%")
+			         .append(managerPhone)
+			         .append("%'");
 		}
 
 		return joinQuery;

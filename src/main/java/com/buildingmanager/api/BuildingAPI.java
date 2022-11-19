@@ -16,7 +16,7 @@ import com.buildingmanager.service.BuildingService;
 
 @RestController
 @RequestMapping("/api/building")
-public class BuildingAPI extends BaseRepositoryImpl<BuildingEntity>{
+public class BuildingAPI {
 
 	@Autowired
 	BuildingService buildingService;
