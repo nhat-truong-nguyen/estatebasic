@@ -13,6 +13,7 @@ public class BuildingConverter {
 		buildingSearchResponse.setName(buildingEntity.getName());
 		buildingSearchResponse.setStreet(buildingEntity.getStreet());
 		buildingSearchResponse.setWard(buildingEntity.getWard());
+		// UI cần show districtName nhé, nên kết hợp street + ward + districtName = address nhé quý khách
 		buildingSearchResponse.setDistrictId(buildingEntity.getDistrictId());
 		buildingSearchResponse.setFloorArea(buildingEntity.getFloorArea());
 		buildingSearchResponse.setRentPrice(buildingEntity.getRentPrice());

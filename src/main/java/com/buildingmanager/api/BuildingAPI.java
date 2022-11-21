@@ -17,10 +17,8 @@ import com.buildingmanager.service.BuildingService;
 @RestController
 @RequestMapping("/api/building")
 public class BuildingAPI {
-
 	@Autowired
 	BuildingService buildingService;
-	
 
 	@GetMapping
 	public List<BuildingSearchResponse> findBuildings(@RequestParam Map<String, String> params, @RequestParam("rentType") List<String> rentTypes) {
