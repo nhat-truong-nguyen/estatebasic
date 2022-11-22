@@ -14,9 +14,11 @@ import com.buildingmanager.util.ValidationUtil;
 public class BuildingRepositoryImpl extends BaseRepositoryImpl<BuildingEntity> implements BuildingRepository {
 
 	public List<BuildingEntity> findBuildings(Map<String, String> params, List<String> types) {
+		StringBuilder finalQuery = new StringBuilder("SELECT b.* FROM building as b");
+		
 		StringBuilder whereQuery = new StringBuilder();
 		StringBuilder joinQuery = new StringBuilder();
-		StringBuilder finalQuery = new StringBuilder("SELECT b.* FROM building as b");
+		
 		buildQueryWithJoin(params, types, whereQuery, joinQuery);
 		buildQueryWithoutJoin(params, whereQuery);
 		
