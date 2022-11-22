@@ -38,11 +38,12 @@ public class BuildingEntityMapper implements RowMapper<BuildingEntity> {
 			building.setLinkOfBuilding(result.getString("linkofbuilding"));
 			building.setMap(result.getString("map"));
 			building.setImage(result.getString("image"));
+			building.setManagerName(result.getString("managername"));
+			building.setManagerPhone(result.getString("managerPhone"));
 			building.setCreatedDate(result.getTimestamp("createddate"));
 			building.setModifiedDate(result.getTimestamp("modifieddate"));
 			building.setCreatedBy(result.getString("createdby"));
 			building.setModifiedBy(result.getString("modifiedby"));
-			
 			return building;
 		} catch (Exception e) {
 			e.printStackTrace();

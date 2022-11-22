@@ -4,9 +4,9 @@ import java.sql.Timestamp;
 
 public class BuildingSearchResponse {
 	private String name;
-	private String street;
-	private String ward;
-	private Long districtId;
+	private String address;
+	private String managerName;
+	private String managerPhone;
 	private Integer floorArea;
 	private Integer rentPrice;
 	private String serviceFee;
@@ -21,28 +21,28 @@ public class BuildingSearchResponse {
 		this.name = name;
 	}
 
-	public String getStreet() {
-		return street;
+	public String getAddress() {
+		return address;
 	}
 
-	public void setStreet(String street) {
-		this.street = street;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
-	public String getWard() {
-		return ward;
+	public String getManagerName() {
+		return managerName;
 	}
 
-	public void setWard(String ward) {
-		this.ward = ward;
+	public void setManagerName(String managerName) {
+		this.managerName = managerName;
 	}
 
-	public Long getDistrictId() {
-		return districtId;
+	public String getManagerPhone() {
+		return managerPhone;
 	}
 
-	public void setDistrictId(Long districtId) {
-		this.districtId = districtId;
+	public void setManagerPhone(String managerPhone) {
+		this.managerPhone = managerPhone;
 	}
 
 	public Integer getFloorArea() {

@@ -30,6 +30,8 @@ public class BuildingEntity {
 	private String linkOfBuilding;
 	private String map;
 	private String image;
+	private String managerName;
+	private String managerPhone;
 	private Timestamp createdDate;
 	private Timestamp modifiedDate;
 	private String createdBy;
@@ -249,6 +251,22 @@ public class BuildingEntity {
 
 	public void setImage(String image) {
 		this.image = image;
+	}
+
+	public String getManagerName() {
+		return managerName;
+	}
+
+	public void setManagerName(String managerName) {
+		this.managerName = managerName;
+	}
+
+	public String getManagerPhone() {
+		return managerPhone;
+	}
+
+	public void setManagerPhone(String managerPhone) {
+		this.managerPhone = managerPhone;
 	}
 
 	public Timestamp getCreatedDate() {
