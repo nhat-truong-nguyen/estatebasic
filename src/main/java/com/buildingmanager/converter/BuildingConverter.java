@@ -1,8 +1,10 @@
 package com.buildingmanager.converter;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.buildingmanager.entity.BuildingEntity;
+import com.buildingmanager.enums.DistrictEnum;
 import com.buildingmanager.model.response.BuildingSearchResponse;
 
 @Component
@@ -10,6 +12,10 @@ public class BuildingConverter {
 
 	public BuildingSearchResponse toBuildingDTO(BuildingEntity buildingEntity) {
 		StringBuilder address = new StringBuilder();
+		
+		String district = DistrictEnum.valueOf(buildingEntity.getDistrict()).getDistrictName();	
+		
+		address.append(String.join(", ", buildingEntity.getWard(), buildingEntity.getStreet(), district));
 
 		BuildingSearchResponse buildingSearchResponse = new BuildingSearchResponse();
 		buildingSearchResponse.setName(buildingEntity.getName());

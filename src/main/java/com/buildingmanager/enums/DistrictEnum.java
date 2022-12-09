@@ -6,13 +6,13 @@ public enum DistrictEnum {
     QUAN_3("Quận 3"),
     QUAN_4("Quận 4");
 	
-	private final String code;
+	private final String districtName;
 	
-	DistrictEnum(String code) {
-		this.code = code;
+	DistrictEnum(String districtName) {
+		this.districtName = districtName;
 	}
 
-	public String getCode() {
-		return code;
+	public String getDistrictName() {
+		return districtName;
 	}
 }

@@ -17,20 +17,21 @@ public class BuildingRepositoryImpl {
 	@PersistenceContext
 	private EntityManager entityManager;
 
+	@SuppressWarnings("unchecked")
 	public List<BuildingEntity> findBuildings(Map<String, String> params, List<String> types) {
-		StringBuilder finalQuery = new StringBuilder("SELECT b.* FROM building b");
+		StringBuilder finalQuery = new StringBuilder("SELECT b FROM BuildingEntity b");
 
 		StringBuilder whereQuery = new StringBuilder();
 		StringBuilder joinQuery = new StringBuilder();
-		
+
 		buildQueryWithJoin(params, whereQuery, joinQuery);
 		buildQueryWithoutJoin(params, types, whereQuery);
-		
+
 		finalQuery.append(joinQuery);
 		finalQuery.append("\nWHERE 1 = 1");
 		finalQuery.append(whereQuery);
 		finalQuery.append("\nGROUP BY b.id");
-		Query query = entityManager.createNativeQuery(finalQuery.toString(), BuildingEntity.class);
+		Query query = entityManager.createQuery(finalQuery.toString(), BuildingEntity.class);
 
 		return query.getResultList();
 	}
@@ -54,7 +55,7 @@ public class BuildingRepositoryImpl {
 		}
 
 		if (ValidationUtil.isNotBlank(floorArea)) {
-			whereQuery.append("\nAND b.floorarea = ").append(floorArea);
+			whereQuery.append("\nAND b.floorArea = ").append(floorArea);
 		}
 
 		if (ValidationUtil.isNotBlank(ward)) {
@@ -66,7 +67,7 @@ public class BuildingRepositoryImpl {
 		}
 
 		if (ValidationUtil.isNotBlank(numberOfBasement)) {
-			whereQuery.append("\nAND b.numberofbasement = ").append(numberOfBasement);
+			whereQuery.append("\nAND b.numberOfBasement = ").append(numberOfBasement);
 		}
 
 		if (ValidationUtil.isNotBlank(direction)) {
@@ -74,23 +75,23 @@ public class BuildingRepositoryImpl {
 		}
 
 		if (ValidationUtil.isNotBlank(level)) {
-			whereQuery.append("\nAND b.level = ").append("'%").append(level).append("%'");
+			whereQuery.append("\nAND b.level LIKE ").append("'%").append(level).append("%'");
 		}
 
 		if (ValidationUtil.isNotBlank(rentPriceFrom)) {
-			whereQuery.append("\nAND b.rentprice >= ").append(rentPriceFrom);
+			whereQuery.append("\nAND b.rentPrice >= ").append(rentPriceFrom);
 		}
 
 		if (ValidationUtil.isNotBlank(rentPriceTo)) {
-			whereQuery.append("\nAND b.rentprice <= ").append(rentPriceTo);
+			whereQuery.append("\nAND b.rentPrice <= ").append(rentPriceTo);
 		}
 
 		if (ValidationUtil.isNotBlank(managerName)) {
-			whereQuery.append("\nAND b.managername LIKE '%").append(managerName).append("%'");
+			whereQuery.append("\nAND b.managerName LIKE '%").append(managerName).append("%'");
 		}
 
 		if (ValidationUtil.isNotBlank(managerPhone)) {
-			whereQuery.append("\nAND b.managerphone LIKE '%").append(managerPhone).append("%'");
+			whereQuery.append("\nAND b.managerPhone LIKE '%").append(managerPhone).append("%'");
 		}
 
 		if (ValidationUtil.isNotBlank(districtCode)) {
@@ -101,35 +102,32 @@ public class BuildingRepositoryImpl {
 		if (types.size() > 0) {
 			whereQuery.append("\nAND (b.type LIKE\t");
 			types.replaceAll((type) -> ("'%" + type + "%'"));
-			whereQuery.append(String.join("\nOR b.type LIKE\t", types))
-			.append(")");
+			whereQuery.append(String.join("\nOR b.type LIKE\t", types)).append(")");
 		}
 
 	}
 
-	public void buildQueryWithJoin(Map<String, String> params, StringBuilder whereQuery,
-			StringBuilder joinQuery) {
+	public void buildQueryWithJoin(Map<String, String> params, StringBuilder whereQuery, StringBuilder joinQuery) {
 
 		String rentAreaFrom = params.getOrDefault("rentAreaFrom", null);
 		String rentAreaTo = params.getOrDefault("rentAreaTo", null);
 		String staffId = params.getOrDefault("staffId", null);
 
 		if (ValidationUtil.isNotBlank(rentAreaFrom) || ValidationUtil.isNotBlank(rentAreaTo)) {
-			joinQuery.append("\nJOIN rentarea on b.id = rentarea.buildingid");
+			joinQuery.append("\nJOIN b.rentAreas ra");
 		}
 
 		if (ValidationUtil.isNotBlank(rentAreaFrom)) {
-			whereQuery.append("\nAND rentarea.value >= ").append(rentAreaFrom);
+			whereQuery.append("\nAND ra.value >= ").append(rentAreaFrom);
 		}
 
 		if (ValidationUtil.isNotBlank(rentAreaTo)) {
-			whereQuery.append("\nAND rentarea.value <= ").append(rentAreaTo);
+			whereQuery.append("\nAND ra.value <= ").append(rentAreaTo);
 		}
-		
+
 		if (ValidationUtil.isNotBlank(staffId)) {
-			joinQuery.append("\nJOIN assignmentbuilding on b.id = assignmentbuilding.buildingid")
-					.append("\nJOIN user on user.id = assignmentbuilding.staffid");
-			whereQuery.append("\nAND user.id = ").append(staffId);
+			joinQuery.append("\nJOIN b.assignmentBuildings ab").append("\nJOIN ab.staff u");
+			whereQuery.append("\nAND u.id = ").append(staffId);
 		}
 	}
 }

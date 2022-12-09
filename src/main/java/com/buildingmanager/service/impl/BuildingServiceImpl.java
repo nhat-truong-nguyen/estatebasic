@@ -3,6 +3,7 @@ package com.buildingmanager.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,14 +28,11 @@ public class BuildingServiceImpl implements BuildingService {
 	}
 
 	private List<BuildingSearchResponse> toListBuildingDTO(List<BuildingEntity> listBuildingEntity) {
-		List<BuildingSearchResponse> listBuilding = null;
+		List<BuildingSearchResponse> listBuilding = new ArrayList<BuildingSearchResponse>();
 		
-		if (listBuildingEntity != null) {
-			listBuilding = new ArrayList<BuildingSearchResponse>();
-			for (BuildingEntity buildingEntity : listBuildingEntity) {
-				listBuilding.add(buildingConverter.toBuildingDTO(buildingEntity));
-			}
-		}
+		listBuilding = listBuildingEntity.stream()
+		                  .map(building -> buildingConverter.toBuildingDTO(building))
+		                  .collect(Collectors.toList());
 
 		return listBuilding;
 	}
