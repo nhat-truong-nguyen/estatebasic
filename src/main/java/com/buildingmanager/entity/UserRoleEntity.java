@@ -16,7 +16,7 @@ import javax.persistence.Table;
 public class UserRoleEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Long id;
 
 	@ManyToOne
 	@JoinColumn(name = "userid")
@@ -38,11 +38,11 @@ public class UserRoleEntity {
 	@Column(name = "modifiedby")
 	private String modifiedBy;
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

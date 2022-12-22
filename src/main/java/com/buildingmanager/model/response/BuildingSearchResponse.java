@@ -3,6 +3,7 @@ package com.buildingmanager.model.response;
 import java.sql.Timestamp;
 
 public class BuildingSearchResponse {
+	private String id;
 	private String name;
 	private String address;
 	private String managerName;
@@ -12,6 +13,14 @@ public class BuildingSearchResponse {
 	private String serviceFee;
 	private Double brokerageFee;
 	private Timestamp createdDate;
+	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 
 	public String getName() {
 		return name;

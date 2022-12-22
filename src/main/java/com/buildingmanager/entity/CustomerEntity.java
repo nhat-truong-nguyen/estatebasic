@@ -17,7 +17,7 @@ import javax.persistence.Table;
 public class CustomerEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Long id;
 
 	@OneToMany(mappedBy = "customer")
 	private List<TransactionEntity> transactions = new ArrayList<>();
@@ -46,11 +46,11 @@ public class CustomerEntity {
 	@Column(name = "modifiedby")
 	private String modifiedBy;
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

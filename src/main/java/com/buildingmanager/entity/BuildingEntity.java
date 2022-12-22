@@ -19,7 +19,7 @@ public class BuildingEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Long id;
 	
 	@OneToMany(mappedBy="building", fetch=FetchType.LAZY)
 	List<RentAreaEntity> rentAreas = new ArrayList<>();
@@ -58,7 +58,7 @@ public class BuildingEntity {
 	private Integer rentPrice;
 
 	@Column(name = "rentpricedescription")
-	private String rentpricedescription;
+	private String rentPriceDescription;
 
 	@Column(name = "servicefee")
 	private String serviceFee;
@@ -88,7 +88,7 @@ public class BuildingEntity {
 	private String renttime;
 
 	@Column(name = "decorationtime")
-	private String decorationtime;
+	private String decorationTime;
 
 	@Column(name = "brokeragefee")
 	private Double brokerageFee;
@@ -126,11 +126,11 @@ public class BuildingEntity {
 	@Column(name = "modifiedby")
 	private String modifiedBy;
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -215,11 +215,11 @@ public class BuildingEntity {
 	}
 
 	public String getRentpricedescription() {
-		return rentpricedescription;
+		return rentPriceDescription;
 	}
 
 	public void setRentpricedescription(String rentpricedescription) {
-		this.rentpricedescription = rentpricedescription;
+		this.rentPriceDescription = rentpricedescription;
 	}
 
 	public String getServiceFee() {
@@ -295,11 +295,11 @@ public class BuildingEntity {
 	}
 
 	public String getDecorationtime() {
-		return decorationtime;
+		return decorationTime;
 	}
 
 	public void setDecorationtime(String decorationtime) {
-		this.decorationtime = decorationtime;
+		this.decorationTime = decorationtime;
 	}
 
 	public Double getBrokerageFee() {
@@ -396,5 +396,37 @@ public class BuildingEntity {
 
 	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
+	}
+
+	public List<RentAreaEntity> getRentAreas() {
+		return rentAreas;
+	}
+
+	public void setRentAreas(List<RentAreaEntity> rentAreas) {
+		this.rentAreas = rentAreas;
+	}
+
+	public List<AssignmentBuildingEntity> getAssignmentBuildings() {
+		return assignmentBuildings;
+	}
+
+	public void setAssignmentBuildings(List<AssignmentBuildingEntity> assignmentBuildings) {
+		this.assignmentBuildings = assignmentBuildings;
+	}
+
+	public String getRentPriceDescription() {
+		return rentPriceDescription;
+	}
+
+	public void setRentPriceDescription(String rentPriceDescription) {
+		this.rentPriceDescription = rentPriceDescription;
+	}
+
+	public String getDecorationTime() {
+		return decorationTime;
+	}
+
+	public void setDecorationTime(String decorationTime) {
+		this.decorationTime = decorationTime;
 	}
 }
