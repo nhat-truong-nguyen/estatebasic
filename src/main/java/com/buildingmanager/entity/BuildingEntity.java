@@ -20,11 +20,11 @@ public class BuildingEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@OneToMany(mappedBy="building", fetch=FetchType.LAZY)
+
+	@OneToMany(mappedBy = "building", fetch = FetchType.LAZY)
 	List<RentAreaEntity> rentAreas = new ArrayList<>();
-	
-	@OneToMany(mappedBy = "building", fetch=FetchType.LAZY)
+
+	@OneToMany(mappedBy = "building", fetch = FetchType.LAZY)
 	List<AssignmentBuildingEntity> assignmentBuildings = new ArrayList<>();
 
 	@Column(name = "name")
@@ -59,6 +59,9 @@ public class BuildingEntity {
 
 	@Column(name = "rentpricedescription")
 	private String rentPriceDescription;
+
+	@Column(name = "rentareadescription")
+	private String rentAreaDescription;
 
 	@Column(name = "servicefee")
 	private String serviceFee;
@@ -428,5 +431,13 @@ public class BuildingEntity {
 
 	public void setDecorationTime(String decorationTime) {
 		this.decorationTime = decorationTime;
+	}
+
+	public String getRentAreaDescription() {
+		return rentAreaDescription;
+	}
+
+	public void setRentAreaDescription(String rentAreaDescription) {
+		this.rentAreaDescription = rentAreaDescription;
 	}
 }

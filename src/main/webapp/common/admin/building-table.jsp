@@ -63,7 +63,7 @@
 							<td>${building.managerName }</td>
 							<td>${building.managerPhone }</td>
 							<td>${building.floorArea }</td>
-							<td></td>
+							<td>${building.rentAreaDescription }</td>
 							<td>${building.rentPrice }</td>
 							<td>${building.serviceFee }</td>
 							<td>${building.brokerageFee }</td>
@@ -113,11 +113,6 @@
 							</tr>
 						</thead>
 						<tbody id="staffList">
-							<td class="text-center">Nguyễn Văn A</td>
-							<td class="text-center"><label class="pos-rel"> <input
-									type="checkbox" name="staffIds" value="" class="ace" /> <span
-									class="lbl"></span>
-							</label></td>
 						</tbody>
 					</table>
 				</div>

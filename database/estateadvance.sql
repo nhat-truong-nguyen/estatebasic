@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Dec 22, 2022 at 01:07 PM
+-- Generation Time: Dec 23, 2022 at 02:05 PM
 -- Server version: 8.0.16
 -- PHP Version: 7.4.26
 
@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `assignmentbuilding` (
   PRIMARY KEY (`id`),
   KEY `FKkk3mdegrmfcdlsxqds1m6q238` (`buildingid`),
   KEY `FKf4ibbod44h32ao1o6pb4yq98p` (`staffid`)
-) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `assignmentbuilding`
@@ -49,7 +49,8 @@ INSERT INTO `assignmentbuilding` (`id`, `createdby`, `createddate`, `modifiedby`
 (16, NULL, NULL, NULL, NULL, 3, 1),
 (15, NULL, NULL, NULL, NULL, 26, 2),
 (14, NULL, NULL, NULL, NULL, 26, 1),
-(6, NULL, NULL, NULL, NULL, 2, 1),
+(19, NULL, NULL, NULL, NULL, 2, 3),
+(18, NULL, NULL, NULL, NULL, 17, 3),
 (17, NULL, NULL, NULL, NULL, 3, 3),
 (12, NULL, NULL, NULL, NULL, 16, 2),
 (11, NULL, NULL, NULL, NULL, 16, 1);
@@ -116,6 +117,7 @@ CREATE TABLE IF NOT EXISTS `building` (
   `type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `ward` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `waterfee` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `rentareadescription` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -123,12 +125,12 @@ CREATE TABLE IF NOT EXISTS `building` (
 -- Dumping data for table `building`
 --
 
-INSERT INTO `building` (`id`, `brokeragefee`, `carfee`, `createdby`, `createddate`, `decorationtime`, `deposit`, `direction`, `district`, `electricityfee`, `floorarea`, `image`, `level`, `linkofbuilding`, `managername`, `managerphone`, `map`, `modifiedby`, `modifieddate`, `motorbikefee`, `name`, `note`, `numberofbasement`, `overtimefee`, `payment`, `rentprice`, `rentpricedescription`, `renttime`, `servicefee`, `street`, `structure`, `type`, `ward`, `waterfee`) VALUES
-(26, NULL, '', NULL, NULL, '', '', '', 'QUAN_1', '', 500, NULL, '', NULL, 'nguyen van b', '01234567890', NULL, NULL, NULL, '', 'Nam Giao Building Tower', '', 2, '', '', 15, '15 triệu/m2', '', '', '59 phan xích long', '', 'TANG_TRET,NGUYEN_CAN', 'Phường 2', NULL),
-(2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'QUAN_2', NULL, 650, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ACM Tower', NULL, 2, NULL, NULL, 18, '18 triệu/m2', NULL, NULL, '96 cao thắng', NULL, 'NGUYEN_CAN', 'Phường 4', NULL),
-(3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'QUAN_1', NULL, 200, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Alpha 2 Building Tower', NULL, 1, NULL, NULL, 20, '20 triệu/m2', NULL, NULL, '153 nguyễn đình chiểu', NULL, 'NOI_THAT', 'Phường 6', NULL),
-(16, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'QUAN_1', NULL, 500, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Nam Giao Building Tower', NULL, 2, NULL, NULL, 15, '15 triệu/m2', NULL, NULL, '59 phan xích long', NULL, 'TANG_TRET,NGUYEN_CAN', 'Phường 2', NULL),
-(17, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'QUAN_2', NULL, 650, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ACM Tower', NULL, 2, NULL, NULL, 18, '18 triệu/m2', NULL, NULL, '96 cao thắng', NULL, 'NGUYEN_CAN', 'Phường 4', NULL);
+INSERT INTO `building` (`id`, `brokeragefee`, `carfee`, `createdby`, `createddate`, `decorationtime`, `deposit`, `direction`, `district`, `electricityfee`, `floorarea`, `image`, `level`, `linkofbuilding`, `managername`, `managerphone`, `map`, `modifiedby`, `modifieddate`, `motorbikefee`, `name`, `note`, `numberofbasement`, `overtimefee`, `payment`, `rentprice`, `rentpricedescription`, `renttime`, `servicefee`, `street`, `structure`, `type`, `ward`, `waterfee`, `rentareadescription`) VALUES
+(26, 0.7, '', NULL, NULL, '', '', '', 'QUAN_1', '', 500, NULL, '', NULL, 'nguyen van b', '01234567890', NULL, NULL, NULL, '', 'Nam Giao Building Tower', '', 2, '4', '', 15, '15 triệu/m2', '', '4', '59 phan xích long', '', 'TANG_TRET,NGUYEN_CAN', 'Phường 2', NULL, '290m2(lầu lừng), 150m2(lầu 4)'),
+(2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'QUAN_2', NULL, 650, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ACM Tower', NULL, 2, NULL, NULL, 18, '18 triệu/m2', NULL, NULL, '96 cao thắng', NULL, 'NGUYEN_CAN', 'Phường 4', NULL, NULL),
+(3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'QUAN_1', NULL, 200, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Alpha 2 Building Tower', NULL, 1, NULL, NULL, 20, '20 triệu/m2', NULL, NULL, '153 nguyễn đình chiểu', NULL, 'NOI_THAT', 'Phường 6', NULL, NULL),
+(16, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'QUAN_1', NULL, 500, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Nam Giao Building Tower', NULL, 2, NULL, NULL, 15, '15 triệu/m2', NULL, NULL, '59 phan xích long', NULL, 'TANG_TRET,NGUYEN_CAN', 'Phường 2', NULL, NULL),
+(17, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'QUAN_2', NULL, 650, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ACM Tower', NULL, 2, NULL, NULL, 18, '18 triệu/m2', NULL, NULL, '96 cao thắng', NULL, 'NGUYEN_CAN', 'Phường 4', NULL, NULL);
 
 -- --------------------------------------------------------
 

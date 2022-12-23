@@ -27,4 +27,10 @@ public class UserServiceImpl implements UserService {
 	public List<UserDTO> findStaffsByBuildingId(Long buildingId) {
 		return  userConverter.toListBuildingDTO(userRepositoryCustom.findStaffsByBuildingId(buildingId));
 	}
+
+	@Override
+	public UserDTO doAuthentication() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

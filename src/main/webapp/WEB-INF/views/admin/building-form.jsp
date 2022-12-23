@@ -192,13 +192,13 @@
 												type="text" class="form-control" id="level" name="level"
 												value="${building.level }">
 										</div>
-										<div class="col-sm-4">
+										<div class="col-sm-3">
 											<label for="rentAreas" class="form-label"><b>Diện
 													tích thuê</b></label> <input type="text" class="form-control"
 												id="rentAreas" name="rentAreas"
 												value="${building.rentAreas }">
 										</div>
-										<div class="col-sm-4">
+										<div class="col-sm-5">
 											<label for="rentAreaDescription" class="form-label"><b>Mô
 													tả diện tích</b></label> <input type="text" class="form-control"
 												id="rentAreaDescription" name="rentAreaDescription"
@@ -230,6 +230,12 @@
 													ngoài giờ</b></label> <input type="text" class="form-control"
 												id="overtimeFee" name="overtimeFee"
 												value="${building.overtimeFee }">
+										</div>
+										<div class="col-sm-2">
+											<label for="brokerageFee" class="form-label"><b>Phí
+													môi giới</b></label> <input type="text" class="form-control"
+												id="brokerageFee" name="brokerageFee"
+												value="${building.brokerageFee }">
 										</div>
 									</div>
 

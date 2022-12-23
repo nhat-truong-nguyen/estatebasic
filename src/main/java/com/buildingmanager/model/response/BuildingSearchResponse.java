@@ -10,6 +10,7 @@ public class BuildingSearchResponse {
 	private String managerPhone;
 	private Integer floorArea;
 	private Integer rentPrice;
+	private String rentAreaDescription;
 	private String serviceFee;
 	private Double brokerageFee;
 	private Timestamp createdDate;
@@ -92,5 +93,13 @@ public class BuildingSearchResponse {
 
 	public void setCreatedDate(Timestamp createdDate) {
 		this.createdDate = createdDate;
+	}
+
+	public String getRentAreaDescription() {
+		return rentAreaDescription;
+	}
+
+	public void setRentAreaDescription(String rentAreaDescription) {
+		this.rentAreaDescription = rentAreaDescription;
 	}
 }
