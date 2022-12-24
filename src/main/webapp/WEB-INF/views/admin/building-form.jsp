@@ -111,7 +111,7 @@
 								id="formFieldBuilding" class="widget-body">
 								<div class="widget-main">
 									<input type="hidden" class="form-control" name="id"
-												value="${building.id }">
+										value="${building.id }">
 									<div class="row">
 										<div class="col-sm-2">
 											<label for="name" class="form-label"><b>Tên sản
@@ -295,7 +295,8 @@
 										<div class="col-sm-4">
 											<label for="managerPhone" class="form-label"><b>Số
 													điện thoại quản lý</b></label> <input type="text" class="form-control"
-												id="note" name="managerPhone" value="${building.managerPhone }">
+												id="note" name="managerPhone"
+												value="${building.managerPhone }">
 										</div>
 									</div>
 
@@ -401,10 +402,6 @@
 </div>
 <!-- /.main-container -->
 
-
-<!-- basic scripts -->
-
-<!--[if !IE]> -->
 <script src="assets/js/jquery.2.1.1.min.js"></script>
 
 <!-- <![endif]-->
@@ -412,39 +409,6 @@
 <!--[if IE]>
 <script src="assets/js/jquery.1.11.1.min.js"></script>
 <![endif]-->
-
-<!--[if !IE]> -->
-<script type="text/javascript">
-	window.jQuery
-			|| document.write("<script src='assets/js/jquery.min.js'>"
-					+ "<" + "/script>");
-</script>
-
-<!-- <![endif]-->
-
-<!--[if IE]>
-<script type="text/javascript">
- window.jQuery || document.write("<script src='assets/js/jquery1x.min.js'>"+"<"+"/script>");
-</script>
-<![endif]-->
-<script type="text/javascript">
-	if ('ontouchstart' in document.documentElement)
-		document.write("<script src='assets/js/jquery.mobile.custom.min.js'>"
-				+ "<" + "/script>");
-</script>
-<script src="assets/js/bootstrap.min.js"></script>
-
-<!-- page specific plugin scripts -->
-<script src="assets/js/jquery.bootstrap-duallistbox.min.js"></script>
-<script src="assets/js/jquery.raty.min.js"></script>
-<script src="assets/js/bootstrap-multiselect.min.js"></script>
-<script src="assets/js/select2.min.js"></script>
-<script src="assets/js/typeahead.jquery.min.js"></script>
-
-<!-- ace scripts -->
-<script src="assets/js/ace-elements.min.js"></script>
-<script src="assets/js/ace.min.js"></script>
-
 <!-- inline scripts related to this page -->
 <script type="text/javascript">
 	jQuery(function($) {
@@ -457,8 +421,8 @@
 		container1.find('.btn').addClass('btn-white btn-info btn-bold');
 
 		/**var setRatingColors = function() {
-		    $(this).find('.star-on-png,.star-half-png').addClass('orange2').removeClass('grey');
-		    $(this).find('.star-off-png').removeClass('orange2').addClass('grey');
+			$(this).find('.star-on-png,.star-half-png').addClass('orange2').removeClass('grey');
+			$(this).find('.star-off-png').removeClass('orange2').addClass('grey');
 		}*/
 		$('.rating').raty({
 			'cancel' : true,
@@ -467,13 +431,13 @@
 		/**,
 		
 		'click': function() {
-		    setRatingColors.call(this);
+			setRatingColors.call(this);
 		},
 		'mouseover': function() {
-		    setRatingColors.call(this);
+			setRatingColors.call(this);
 		},
 		'mouseout': function() {
-		    setRatingColors.call(this);
+			setRatingColors.call(this);
 		}*/
 		})//.find('i:not(.star-raty)').addClass('grey');
 
@@ -507,6 +471,8 @@
 								liGroup : '<li class="multiselect-item group"><label class="multiselect-group"></label></li>'
 							}
 						});
+
+		///////////////////
 
 		//typeahead.js
 		//example taken from plugin's page at: https://twitter.github.io/typeahead.js/examples/
@@ -545,6 +511,8 @@
 			displayKey : 'value',
 			source : substringMatcher(ace.vars['US_STATES'])
 		});
+
+		///////////////
 
 		//in ajax mode, remove remaining elements before leaving page
 		$(document).one(

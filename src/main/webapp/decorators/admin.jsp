@@ -56,6 +56,40 @@
 	<%@ include file="/common/admin/header.jsp"%>
 	<dec:body />
 	<%@ include file="/common/admin/footer.jsp"%>
+	
+	
+		<!--[if !IE]> -->
+		<script type="text/javascript">
+			window.jQuery
+				|| document.write("<script src='assets/js/jquery.min.js'>"
+					+ "<" + "/script>");
+		</script>
+
+		<!-- <![endif]-->
+
+		<!--[if IE]>
+<script type="text/javascript">
+ window.jQuery || document.write("<script src='assets/js/jquery1x.min.js'>"+"<"+"/script>");
+</script>
+<![endif]-->
+		<script type="text/javascript">
+			if ('ontouchstart' in document.documentElement)
+				document.write("<script src='assets/js/jquery.mobile.custom.min.js'>"
+					+ "<" + "/script>");
+		</script>
+		<script src="assets/js/bootstrap.min.js"></script>
+
+		<!-- page specific plugin scripts -->
+		<script src="assets/js/jquery.bootstrap-duallistbox.min.js"></script>
+		<script src="assets/js/jquery.raty.min.js"></script>
+		<script src="assets/js/bootstrap-multiselect.min.js"></script>
+		<script src="assets/js/select2.min.js"></script>
+		<script src="assets/js/typeahead.jquery.min.js"></script>
+
+		<!-- ace scripts -->
+		<script src="assets/js/ace-elements.min.js"></script>
+		<script src="assets/js/ace.min.js"></script>
+	
 </body>
 
 </html>
