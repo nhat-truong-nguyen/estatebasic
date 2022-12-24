@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -42,19 +44,13 @@ public class BuildingAPI {
 		return userService.findStaffsByBuildingId(buildingId);
 	}
 	
-	@PostMapping("/api/building")
-	public void saveBuilding(@RequestBody BuildingEntity buildingEntity) {
-		buildingService.save(buildingEntity);
+	@RequestMapping(value = "/api/building", method = {RequestMethod.POST, RequestMethod.PUT})
+	public void saveBuilding(@RequestBody BuildingDTO dto) {
+		buildingService.saveOrUpdate(dto);
 	}
 	
 	@DeleteMapping("/api/building")
 	public void deleteBuilding(@RequestBody Long[] ids) {
 		buildingService.delete(ids);
 	}
-	
-	@PutMapping("/api/building")
-	public void updateBuilding(@RequestBody BuildingDTO dto) {
-		buildingService.update(dto);
-	}
-	
 }

@@ -9,10 +9,9 @@ import com.laptrinhjavaweb.model.response.BuildingSearchResponse;
 
 public interface IBuildingService {
 	List<BuildingSearchResponse> findBuildings(Map<String, String> params, List<String> rentTypes);
-	BuildingEntity save(BuildingEntity buildingEntity);
 	void delete(Long[] ids);
-	void update(BuildingDTO dto);
 	List<BuildingSearchResponse> findAll();
 	void assignBuilding(Long[] staffIds, Long buildingId);
 	BuildingDTO findById(Long id);
+	void saveOrUpdate(BuildingDTO dto);
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -23,6 +24,7 @@ import com.laptrinhjavaweb.service.IBuildingService;
 import com.laptrinhjavaweb.service.impl.UserService;
 
 @Controller
+@RequestMapping("/admin")
 public class BuildingController {
 	@Autowired
 	private IBuildingService buildingService;
@@ -33,7 +35,7 @@ public class BuildingController {
 	@Autowired
 	BuildingConverter buildingConverter;
 
-	@GetMapping("/admin/building-list")
+	@GetMapping("/building-list")
 	public ModelAndView buildingSearchForm(HttpSession session) {
 		ModelAndView mav = new ModelAndView("admin/building-list");
 		mav.addObject("districts", DistrictEnum.values())
@@ -42,7 +44,7 @@ public class BuildingController {
 		return mav;
 	}
 
-	@GetMapping("/admin/building-search")
+	@GetMapping("/building-search")
 	public ModelAndView buildingSearchList(@RequestParam Map<String, String> params,
 			@RequestParam("rentType") List<String> rentTypes) {
 		ModelAndView mav = new ModelAndView("admin/building-list");
@@ -52,14 +54,14 @@ public class BuildingController {
 		return mav;
 	}
 
-	@GetMapping("/admin/building-field-form")
+	@GetMapping("/building-field-form")
 	public ModelAndView buildingFieldForm() {
 		ModelAndView mav = new ModelAndView("admin/building-form");
 		mav.addObject("districts", DistrictEnum.values()).addObject("rentTypes", BuildingTypeEnum.values());
 		return mav;
 	}
 
-	@GetMapping("/admin/building-update")
+	@GetMapping("/building-update")
 	public ModelAndView buildingUpdateForm(@RequestParam("id") Long buildingId) {
 		ModelAndView mav = new ModelAndView("admin/building-form");
 		mav.addObject("districts", DistrictEnum.values()).addObject("rentTypes", BuildingTypeEnum.values())
@@ -67,29 +69,21 @@ public class BuildingController {
 		return mav;
 	}
 
-	@PostMapping("/admin/building-update")
+	@PostMapping(value = {"/building-update", "/building-save"})
 	public ModelAndView updateBuilding(@ModelAttribute("buildingModel") BuildingDTO dto) {
-		ModelAndView mav = new ModelAndView("redirect:/admin/building-list");
-		buildingService.update(dto);
+		buildingService.saveOrUpdate(dto);
+		ModelAndView mav = new ModelAndView("redirect:building-list");
 		return mav;
 	}
 
-	@PostMapping("/admin/building-save")
-	public ModelAndView saveBuilding(@ModelAttribute("buildingModel") BuildingDTO dto) {
-		BuildingEntity buildingEntity = buildingConverter.toBuildingEntity(dto);
-		ModelAndView mav = new ModelAndView("redirect:/admin/building-list");
-		buildingService.save(buildingEntity);
-		return mav;
-	}
-
-	@PostMapping("/admin/building-delete")
+	@PostMapping("/building-delete")
 	public ModelAndView delete(@RequestParam("ids") Long[] ids) {
-		ModelAndView mav = new ModelAndView("redirect:/admin/building-list");
+		ModelAndView mav = new ModelAndView("redirect:building-list");
 		buildingService.delete(ids);
 		return mav;
 	}
 
-	@PostMapping("/admin/assign-building")
+	@PostMapping("assign-building")
 	public ModelAndView assignBuilding(@RequestParam("staffIds") Long[] staffIds,
 			@RequestParam("buildingId") Long buildingId) {
 		ModelAndView mav = new ModelAndView("redirect:/admin/building-list");

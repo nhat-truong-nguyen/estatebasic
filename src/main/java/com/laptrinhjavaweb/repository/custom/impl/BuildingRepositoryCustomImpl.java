@@ -145,12 +145,6 @@ public class BuildingRepositoryCustomImpl implements BuildingRepositoryCustom {
 
 	@Override
 	@Transactional
-	public void save(BuildingEntity buildingEntity) {
-		entityManager.persist(buildingEntity);
-	}
-
-	@Override
-	@Transactional
 	public void update(BuildingEntity buildingEntity) {
 		entityManager.merge(buildingEntity);
 		rentAreaRepositoryCustom.deleteByBuildingId(buildingEntity.getId());
@@ -160,31 +154,15 @@ public class BuildingRepositoryCustomImpl implements BuildingRepositoryCustom {
 	@Override
 	@Transactional
 	public void delete(Long[] ids) {
-		StringBuilder params = new StringBuilder();
-
-		if (ids != null) {
-			for (int i = 0; i < ids.length; i++) {
-				params.append(ids[i]);
-				if (i < ids.length - 1) {
-					params.append(",");
-				}
-			}
-		}
-
-		StringBuilder sql = new StringBuilder("DELETE building, rentarea, assignmentbuilding FROM building")
-				.append("\nLEFT JOIN rentarea ON building.id = rentarea.buildingid")
-				.append("\nLEFT JOIN assignmentbuilding ON building.id = assignmentbuilding.buildingid")
-				.append("\nWHERE building.id IN(").append(params.toString()).append(")");
-
-		entityManager.createNativeQuery(sql.toString()).executeUpdate();
+		deleteRowFromTable("rentarea","buildingid", ids);
+		deleteRowFromTable("assignmentbuilding", "buildingid", ids);
+		deleteRowFromTable("building","id", ids);
 	}
-
+	
 	@Override
 	@Transactional
 	public void deleteBuildingAssignment(Long id) {
-		StringBuilder sql = new StringBuilder("DELETE FROM assignmentbuilding WHERE buildingid = ").append(id);
-
-		entityManager.createNativeQuery(sql.toString()).executeUpdate();
+		deleteRowFromTable("assignmentbuilding", "buildingid", id);
 	}
 
 	@Override
@@ -202,5 +180,23 @@ public class BuildingRepositoryCustomImpl implements BuildingRepositoryCustom {
 		
 		entityManager.createNativeQuery(sql.toString()).executeUpdate();
 
+	}
+	
+	private <T> void deleteRowFromTable(String tableName, String column, Long...ids) {
+		StringBuilder params = new StringBuilder();
+
+		if (ids != null) {
+			for (int i = 0; i < ids.length; i++) {
+				params.append(ids[i]);
+				if (i < ids.length - 1) {
+					params.append(",");
+				}
+			}
+		}
+		
+		StringBuilder sql = new StringBuilder("DELETE FROM\n").append(tableName)
+				.append("\nWHERE\n").append(column).append("\nIN(").append(params.toString()).append(")");
+
+		entityManager.createNativeQuery(sql.toString()).executeUpdate();
 	}
 }

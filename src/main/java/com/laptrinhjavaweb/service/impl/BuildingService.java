@@ -8,10 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.laptrinhjavaweb.converter.BuildingConverter;
 import com.laptrinhjavaweb.dto.BuildingDTO;
-import com.laptrinhjavaweb.entity.AssignmentBuildingEntity;
 import com.laptrinhjavaweb.entity.BuildingEntity;
 import com.laptrinhjavaweb.entity.RentAreaEntity;
-import com.laptrinhjavaweb.entity.UserEntity;
 import com.laptrinhjavaweb.model.response.BuildingSearchResponse;
 import com.laptrinhjavaweb.repository.AssignmentBuildingRepository;
 import com.laptrinhjavaweb.repository.BuildingRepository;
@@ -24,16 +22,16 @@ import com.laptrinhjavaweb.service.IBuildingService;
 public class BuildingService implements IBuildingService {
 	@Autowired
 	RentAreaRepository rentAreaRepository;
-	
-	@Autowired 
+
+	@Autowired
 	RentAreaRepositoryCustom rentAreaRepositoryCustom;
-	
+
 	@Autowired
 	AssignmentBuildingRepository assignmentBuildingRepository;
 
 	@Autowired
 	BuildingRepository buildingRepository;
-	
+
 	@Autowired
 	BuildingRepositoryCustom buildingRepositoryCustom;
 
@@ -48,27 +46,26 @@ public class BuildingService implements IBuildingService {
 	}
 
 	@Override
-	public BuildingEntity save(BuildingEntity buildingEntity) {
-		BuildingEntity newBuilding = buildingRepository.save(buildingEntity);
+	public void saveOrUpdate(BuildingDTO dto) {
+		BuildingEntity buildingEntity = buildingConverter.toBuildingEntity(dto);
 
-		for (RentAreaEntity rentAreaEntity : buildingEntity.getRentAreas()) {
-			rentAreaEntity.setBuilding(newBuilding);
+		if (dto.getId() == null) {
+			buildingEntity = buildingRepository.save(buildingConverter.toBuildingEntity(dto));
+
+			for (RentAreaEntity rentAreaEntity : buildingEntity.getRentAreas()) {
+				rentAreaEntity.setBuilding(buildingEntity);
+			}
+		} else {
+			buildingRepositoryCustom.update(buildingEntity);
+			rentAreaRepositoryCustom.deleteByBuildingId(buildingEntity.getId());
 		}
 
 		rentAreaRepository.save(buildingEntity.getRentAreas());
-
-		return buildingEntity;
 	}
 
 	@Override
 	public void delete(Long[] ids) {
 		buildingRepositoryCustom.delete(ids);
-	}
-
-	@Override
-	public void update(BuildingDTO dto) {
-		BuildingEntity buildingEntity = buildingConverter.toBuildingEntity(dto);
-		buildingRepositoryCustom.update(buildingEntity);
 	}
 
 	@Override
@@ -80,22 +77,7 @@ public class BuildingService implements IBuildingService {
 	@Override
 	public void assignBuilding(Long[] staffIds, Long buildingId) {
 		buildingRepositoryCustom.deleteBuildingAssignment(buildingId);
-		
 		buildingRepositoryCustom.saveAssignmentBuilding(staffIds, buildingId);
-		
-//		BuildingEntity b = new BuildingEntity();
-//		b.setId(buildingId);
-//		
-//		for (Long staffId : staffIds) {			
-//			UserEntity staff = new UserEntity();
-//			staff.setId(staffId);
-//			
-//			AssignmentBuildingEntity ab = new AssignmentBuildingEntity();
-//			ab.setBuilding(b);
-//			ab.setStaff(staff);
-//			
-//			assignmentBuildingRepository.save(ab);
-//		}
 	}
 
 	@Override
