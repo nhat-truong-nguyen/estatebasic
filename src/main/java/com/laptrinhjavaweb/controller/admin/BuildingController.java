@@ -1,9 +1,6 @@
 package com.laptrinhjavaweb.controller.admin;
 
 import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,7 +13,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.laptrinhjavaweb.converter.BuildingConverter;
 import com.laptrinhjavaweb.dto.BuildingDTO;
-import com.laptrinhjavaweb.entity.BuildingEntity;
 import com.laptrinhjavaweb.enums.BuildingTypeEnum;
 import com.laptrinhjavaweb.enums.DistrictEnum;
 import com.laptrinhjavaweb.model.request.BuildingSearchRequest;
@@ -84,8 +80,8 @@ public class BuildingController {
 		return mav;
 	}
 
-	@PostMapping("assign-building")
-	public ModelAndView assignBuilding(@RequestParam("staffIds") Long[] staffIds,
+	@PostMapping("/assign-building")
+	public ModelAndView assignBuilding(@RequestParam("staffIds") List<Long> staffIds,
 			@RequestParam("buildingId") Long buildingId) {
 		ModelAndView mav = new ModelAndView("redirect:/admin/building-list");
 		buildingService.assignBuilding(staffIds, buildingId);

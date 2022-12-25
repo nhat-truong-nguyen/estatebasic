@@ -1,15 +1,19 @@
 package com.laptrinhjavaweb.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.laptrinhjavaweb.converter.BuildingConverter;
 import com.laptrinhjavaweb.dto.BuildingDTO;
+import com.laptrinhjavaweb.entity.AssignmentBuildingEntity;
 import com.laptrinhjavaweb.entity.BuildingEntity;
 import com.laptrinhjavaweb.entity.RentAreaEntity;
+import com.laptrinhjavaweb.entity.UserEntity;
 import com.laptrinhjavaweb.model.request.BuildingSearchRequest;
 import com.laptrinhjavaweb.model.response.BuildingSearchResponse;
 import com.laptrinhjavaweb.repository.AssignmentBuildingRepository;
@@ -41,22 +45,24 @@ public class BuildingService implements IBuildingService {
 
 	@Override
 	public List<BuildingSearchResponse> findBuildings(BuildingSearchRequest searchModel) {
-		List<BuildingSearchResponse> list = buildingConverter.toListBuildingDTO(buildingRepositoryCustom.findBuildings(searchModel));
+		List<BuildingSearchResponse> list = buildingConverter
+				.toListBuildingDTO(buildingRepositoryCustom.findBuildings(searchModel));
 		return list;
 	}
 
 	@Override
+	@Transactional
 	public void saveOrUpdate(BuildingDTO dto) {
 		BuildingEntity buildingEntity = buildingConverter.toBuildingEntity(dto);
 
-		if (dto.getId() == null) {
-			buildingEntity = buildingRepository.save(buildingConverter.toBuildingEntity(dto));
+		Long idReturn = buildingRepository.save(buildingConverter.toBuildingEntity(dto)).getId();
 
+		if (buildingEntity.getId() == null) {
 			for (RentAreaEntity rentAreaEntity : buildingEntity.getRentAreas()) {
-				rentAreaEntity.setBuilding(buildingEntity);
+				rentAreaEntity.getBuilding().setId(idReturn);
 			}
 		} else {
-			buildingRepositoryCustom.update(buildingEntity);
+			rentAreaRepositoryCustom.deleteByBuildingId(buildingEntity.getId());
 		}
 
 		rentAreaRepository.save(buildingEntity.getRentAreas());
@@ -64,7 +70,7 @@ public class BuildingService implements IBuildingService {
 
 	@Override
 	public void delete(Long[] ids) {
-		buildingRepositoryCustom.delete(ids);
+		buildingRepository.deleteByIdIn(ids);
 	}
 
 	@Override
@@ -74,9 +80,23 @@ public class BuildingService implements IBuildingService {
 	}
 
 	@Override
-	public void assignBuilding(Long[] staffIds, Long buildingId) {
-		buildingRepositoryCustom.deleteBuildingAssignment(buildingId);
-		buildingRepositoryCustom.saveAssignmentBuilding(staffIds, buildingId);
+	public void assignBuilding(List<Long> staffIds, Long buildingId) {
+		BuildingEntity building = new BuildingEntity();
+		building.setId(buildingId);
+		
+		List<AssignmentBuildingEntity> assignBuildingList = new ArrayList<AssignmentBuildingEntity>();
+		
+		for (Long staffId : staffIds) {
+			UserEntity staff= new UserEntity();
+			staff.setId(staffId);
+			
+			AssignmentBuildingEntity assignmentBuilding = new AssignmentBuildingEntity();
+			assignmentBuilding.setBuilding(building);
+			assignmentBuilding.setStaff(staff);
+			assignBuildingList.add(assignmentBuilding);
+		}
+		
+		assignmentBuildingRepository.save(assignBuildingList);
 	}
 
 	@Override

@@ -1,14 +1,11 @@
 package com.laptrinhjavaweb.api.admin;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.laptrinhjavaweb.dto.BuildingDTO;
 import com.laptrinhjavaweb.dto.UserDTO;
-import com.laptrinhjavaweb.entity.BuildingEntity;
 import com.laptrinhjavaweb.model.request.BuildingSearchRequest;
 import com.laptrinhjavaweb.model.response.BuildingSearchResponse;
 import com.laptrinhjavaweb.service.impl.BuildingService;

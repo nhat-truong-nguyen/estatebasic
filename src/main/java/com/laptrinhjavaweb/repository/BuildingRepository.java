@@ -7,4 +7,6 @@ import com.laptrinhjavaweb.entity.BuildingEntity;
 
 @Repository
 public interface BuildingRepository extends JpaRepository<BuildingEntity, Long>{
+	void deleteByIdIn(Long[] ids);
 }
+

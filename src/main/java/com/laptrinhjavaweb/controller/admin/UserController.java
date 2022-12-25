@@ -1,12 +1,10 @@
 package com.laptrinhjavaweb.controller.admin;
 
-import com.laptrinhjavaweb.constant.SystemConstant;
-import com.laptrinhjavaweb.dto.UserDTO;
-import com.laptrinhjavaweb.security.utils.SecurityUtils;
-import com.laptrinhjavaweb.service.IUserService;
-import com.laptrinhjavaweb.service.impl.RoleService;
-import com.laptrinhjavaweb.utils.DisplayTagUtils;
-import com.laptrinhjavaweb.utils.MessageUtils;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -17,9 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.List;
-import java.util.Map;
+import com.laptrinhjavaweb.constant.SystemConstant;
+import com.laptrinhjavaweb.dto.UserDTO;
+import com.laptrinhjavaweb.security.utils.SecurityUtils;
+import com.laptrinhjavaweb.service.IUserService;
+import com.laptrinhjavaweb.service.impl.RoleService;
+import com.laptrinhjavaweb.utils.DisplayTagUtils;
+import com.laptrinhjavaweb.utils.MessageUtils;
 
 @Controller(value = "usersControllerOfAdmin")
 public class UserController {
