@@ -10,6 +10,7 @@ import com.laptrinhjavaweb.converter.BuildingConverter;
 import com.laptrinhjavaweb.dto.BuildingDTO;
 import com.laptrinhjavaweb.entity.BuildingEntity;
 import com.laptrinhjavaweb.entity.RentAreaEntity;
+import com.laptrinhjavaweb.model.request.BuildingSearchRequest;
 import com.laptrinhjavaweb.model.response.BuildingSearchResponse;
 import com.laptrinhjavaweb.repository.AssignmentBuildingRepository;
 import com.laptrinhjavaweb.repository.BuildingRepository;
@@ -39,9 +40,8 @@ public class BuildingService implements IBuildingService {
 	BuildingConverter buildingConverter;
 
 	@Override
-	public List<BuildingSearchResponse> findBuildings(Map<String, String> params, List<String> rentTypes) {
-		List<BuildingSearchResponse> list = buildingConverter
-				.toListBuildingDTO(buildingRepositoryCustom.findBuildings(params, rentTypes));
+	public List<BuildingSearchResponse> findBuildings(BuildingSearchRequest searchModel) {
+		List<BuildingSearchResponse> list = buildingConverter.toListBuildingDTO(buildingRepositoryCustom.findBuildings(searchModel));
 		return list;
 	}
 
@@ -57,7 +57,6 @@ public class BuildingService implements IBuildingService {
 			}
 		} else {
 			buildingRepositoryCustom.update(buildingEntity);
-			rentAreaRepositoryCustom.deleteByBuildingId(buildingEntity.getId());
 		}
 
 		rentAreaRepository.save(buildingEntity.getRentAreas());

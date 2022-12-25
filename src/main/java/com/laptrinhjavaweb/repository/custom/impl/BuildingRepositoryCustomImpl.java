@@ -1,7 +1,6 @@
 package com.laptrinhjavaweb.repository.custom.impl;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -12,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.laptrinhjavaweb.entity.BuildingEntity;
+import com.laptrinhjavaweb.model.request.BuildingSearchRequest;
 import com.laptrinhjavaweb.repository.RentAreaRepository;
 import com.laptrinhjavaweb.repository.custom.BuildingRepositoryCustom;
 import com.laptrinhjavaweb.repository.custom.RentAreaRepositoryCustom;
@@ -30,116 +30,97 @@ public class BuildingRepositoryCustomImpl implements BuildingRepositoryCustom {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<BuildingEntity> findBuildings(Map<String, String> params, List<String> types) {
+	public List<BuildingEntity> findBuildings(BuildingSearchRequest searchModel) {
 		StringBuilder finalQuery = new StringBuilder("SELECT b FROM BuildingEntity b");
 
 		StringBuilder whereQuery = new StringBuilder();
 		StringBuilder joinQuery = new StringBuilder();
 
-		buildQueryWithJoin(params, whereQuery, joinQuery);
-		buildQueryWithoutJoin(params, types, whereQuery);
+		buildQueryWithJoin(searchModel, whereQuery, joinQuery);
+		buildQueryWithoutJoin(searchModel, whereQuery);
 
 		finalQuery.append(joinQuery);
 		finalQuery.append("\nWHERE 1 = 1");
 		finalQuery.append(whereQuery);
 		finalQuery.append("\nGROUP BY b.id");
+		
 		Query query = entityManager.createQuery(finalQuery.toString(), BuildingEntity.class);
-
 		return query.getResultList();
 	}
 
-	private void buildQueryWithoutJoin(Map<String, String> params, List<String> types, StringBuilder whereQuery) {
-		String name = params.getOrDefault("name", null);
-		String floorArea = params.getOrDefault("floorArea", null);
-		String ward = params.getOrDefault("ward", null);
-		String street = params.getOrDefault("street", null);
-		String district = params.getOrDefault("district", null);
-		String numberOfBasement = params.getOrDefault("numberOfBasement", null);
-		String direction = params.getOrDefault("direction", null);
-		String level = params.getOrDefault("level", null);
-		String rentPriceFrom = params.getOrDefault("rentPriceFrom", null);
-		String rentPriceTo = params.getOrDefault("rentPriceTo", null);
-		String managerName = params.getOrDefault("managerName", null);
-		String managerPhone = params.getOrDefault("managerPhone", null);
+	private void buildQueryWithoutJoin(BuildingSearchRequest searchModel, StringBuilder whereQuery) {
 
-		if (ValidationUtil.isNotBlank(name)) {
-			whereQuery.append("\nAND b.name LIKE '%").append(name).append("%'");
+		if (ValidationUtil.isNotBlank(searchModel.getName())) {
+			whereQuery.append("\nAND b.name LIKE '%").append(searchModel.getName()).append("%'");
 		}
 
-		if (ValidationUtil.isNotBlank(floorArea)) {
-			whereQuery.append("\nAND b.floorArea = ").append(floorArea);
+		if (searchModel.getFloorArea() != null) {
+			whereQuery.append("\nAND b.floorArea = ").append(searchModel.getFloorArea());
 		}
 
-		if (ValidationUtil.isNotBlank(ward)) {
-			whereQuery.append("\nAND b.ward LIKE '%").append(ward).append("%'");
+		if (ValidationUtil.isNotBlank(searchModel.getWard())) {
+			whereQuery.append("\nAND b.ward LIKE '%").append(searchModel.getWard()).append("%'");
 		}
 
-		if (ValidationUtil.isNotBlank(street)) {
-			whereQuery.append("\nAND b.street LIKE '%").append(street).append("%'");
+		if (ValidationUtil.isNotBlank(searchModel.getStreet())) {
+			whereQuery.append("\nAND b.street LIKE '%").append(searchModel.getStreet()).append("%'");
 		}
 
-		if (ValidationUtil.isNotBlank(numberOfBasement)) {
-			whereQuery.append("\nAND b.numberOfBasement = ").append(numberOfBasement);
+		if (searchModel.getNumberOfBasement() != null) {
+			whereQuery.append("\nAND b.numberOfBasement = ").append(searchModel.getNumberOfBasement());
 		}
 
-		if (ValidationUtil.isNotBlank(direction)) {
-			whereQuery.append("\nAND b.direction LIKE '%").append(direction).append("%'");
+		if (ValidationUtil.isNotBlank(searchModel.getDirection())) {
+			whereQuery.append("\nAND b.direction LIKE '%").append(searchModel.getDirection()).append("%'");
 		}
 
-		if (ValidationUtil.isNotBlank(level)) {
-			whereQuery.append("\nAND b.level LIKE ").append("'%").append(level).append("%'");
+		if (ValidationUtil.isNotBlank(searchModel.getLevel())) {
+			whereQuery.append("\nAND b.level LIKE ").append("'%").append(searchModel.getLevel()).append("%'");
 		}
 
-		if (ValidationUtil.isNotBlank(rentPriceFrom)) {
-			whereQuery.append("\nAND b.rentPrice >= ").append(rentPriceFrom);
+		if (searchModel.getRentPriceFrom() != null) {
+			whereQuery.append("\nAND b.rentPrice >= ").append(searchModel.getRentPriceFrom());
 		}
 
-		if (ValidationUtil.isNotBlank(rentPriceTo)) {
-			whereQuery.append("\nAND b.rentPrice <= ").append(rentPriceTo);
+		if (searchModel.getRentPriceTo() != null) {
+			whereQuery.append("\nAND b.rentPrice <= ").append(searchModel.getRentPriceTo());
 		}
 
-		if (ValidationUtil.isNotBlank(managerName)) {
-			whereQuery.append("\nAND b.managerName LIKE '%").append(managerName).append("%'");
+		if (ValidationUtil.isNotBlank(searchModel.getManagerName())) {
+			whereQuery.append("\nAND b.managerName LIKE '%").append(searchModel.getManagerName()).append("%'");
 		}
 
-		if (ValidationUtil.isNotBlank(managerPhone)) {
-			whereQuery.append("\nAND b.managerPhone LIKE '%").append(managerPhone).append("%'");
+		if (ValidationUtil.isNotBlank(searchModel.getManagerPhone())) {
+			whereQuery.append("\nAND b.managerPhone LIKE '%").append(searchModel.getManagerPhone()).append("%'");
 		}
 
-		if (ValidationUtil.isNotBlank(district)) {
-			whereQuery.append("\nAND b.district = '").append(district).append("'");
+		if (ValidationUtil.isNotBlank(searchModel.getDistrict())) {
+			whereQuery.append("\nAND b.district = '").append(searchModel.getDistrict()).append("'");
 		}
 
-		types.removeIf((type) -> ValidationUtil.isBlank(type));
-		if (types.size() > 0) {
+		if (searchModel.getRentType() != null) {
 			whereQuery.append("\nAND (b.type LIKE\t");
-			types.replaceAll((type) -> ("'%" + type + "%'"));
-			whereQuery.append(String.join("\nOR b.type LIKE\t", types)).append(")");
+			searchModel.getRentType().replaceAll((type) -> ("'%" + type + "%'"));
+			whereQuery.append(String.join("\nOR b.type LIKE\t", searchModel.getRentType())).append(")");
 		}
-
 	}
 
-	public void buildQueryWithJoin(Map<String, String> params, StringBuilder whereQuery, StringBuilder joinQuery) {
-
-		String rentAreaFrom = params.getOrDefault("rentAreaFrom", null);
-		String rentAreaTo = params.getOrDefault("rentAreaTo", null);
-		String staffId = params.getOrDefault("staffId", null);
-
-		if (ValidationUtil.isNotBlank(rentAreaFrom) || ValidationUtil.isNotBlank(rentAreaTo)) {
+	public void buildQueryWithJoin(BuildingSearchRequest searchModel, StringBuilder whereQuery, StringBuilder joinQuery) {
+		if (searchModel.getRentAreaFrom() != null || searchModel.getRentAreaTo() != null) {
 			joinQuery.append("\nJOIN b.rentAreas ra");
 		}
 
-		if (ValidationUtil.isNotBlank(rentAreaFrom)) {
-			whereQuery.append("\nAND ra.value >= ").append(rentAreaFrom);
+		if (searchModel.getRentAreaFrom() != null) {
+			whereQuery.append("\nAND ra.value >= ").append(searchModel.getRentAreaFrom());
 		}
 
-		if (ValidationUtil.isNotBlank(rentAreaTo)) {
-			whereQuery.append("\nAND ra.value <= ").append(rentAreaTo);
+		if (searchModel.getRentAreaTo() != null) {
+			whereQuery.append("\nAND ra.value <= ").append(searchModel.getRentAreaTo());
 		}
 
-		if (ValidationUtil.isNotBlank(staffId)) {
+		if (searchModel.getStaffId() != null) {
 			joinQuery.append("\nJOIN b.assignmentBuildings ab").append("\nJOIN ab.staff u");
-			whereQuery.append("\nAND u.id = ").append(staffId);
+			whereQuery.append("\nAND u.id = ").append(searchModel.getStaffId());
 		}
 	}
 
@@ -147,18 +128,18 @@ public class BuildingRepositoryCustomImpl implements BuildingRepositoryCustom {
 	@Transactional
 	public void update(BuildingEntity buildingEntity) {
 		entityManager.merge(buildingEntity);
-		rentAreaRepositoryCustom.deleteByBuildingId(buildingEntity.getId());
+		deleteRowFromTable("rentarea", "buildingid", buildingEntity.getId());
 		rentAreaRepository.save(buildingEntity.getRentAreas());
 	}
 
 	@Override
 	@Transactional
 	public void delete(Long[] ids) {
-		deleteRowFromTable("rentarea","buildingid", ids);
+		deleteRowFromTable("rentarea", "buildingid", ids);
 		deleteRowFromTable("assignmentbuilding", "buildingid", ids);
-		deleteRowFromTable("building","id", ids);
+		deleteRowFromTable("building", "id", ids);
 	}
-	
+
 	@Override
 	@Transactional
 	public void deleteBuildingAssignment(Long id) {
@@ -172,17 +153,17 @@ public class BuildingRepositoryCustomImpl implements BuildingRepositoryCustom {
 
 		for (int i = 0; i < staffIds.length; i++) {
 			sql.append("(").append(buildingId).append(",").append(staffIds[i]).append(")");
-			
+
 			if (i != staffIds.length - 1) {
 				sql.append(",");
 			}
 		}
-		
+
 		entityManager.createNativeQuery(sql.toString()).executeUpdate();
 
 	}
-	
-	private <T> void deleteRowFromTable(String tableName, String column, Long...ids) {
+
+	private <T> void deleteRowFromTable(String tableName, String column, Long... ids) {
 		StringBuilder params = new StringBuilder();
 
 		if (ids != null) {
@@ -193,9 +174,9 @@ public class BuildingRepositoryCustomImpl implements BuildingRepositoryCustom {
 				}
 			}
 		}
-		
-		StringBuilder sql = new StringBuilder("DELETE FROM\n").append(tableName)
-				.append("\nWHERE\n").append(column).append("\nIN(").append(params.toString()).append(")");
+
+		StringBuilder sql = new StringBuilder("DELETE FROM\n").append(tableName).append("\nWHERE\n").append(column)
+				.append("\nIN(").append(params.toString()).append(")");
 
 		entityManager.createNativeQuery(sql.toString()).executeUpdate();
 	}

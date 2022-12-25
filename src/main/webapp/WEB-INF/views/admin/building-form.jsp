@@ -127,7 +127,8 @@
 									<div class="row">
 										<div class="col-sm-2">
 											<label for="district" class="form-label"><b>Quận
-													hiện có</b></label><br> <select name="district" id="district">
+													hiện có</b></label><br> <select name="district" id="district"
+												required>
 												<option value="" disabled selected>--- Chọn quận
 													---</option>
 												<c:forEach items="${districts}" var="district">
@@ -530,5 +531,6 @@
 	$('#buildingCRUD').click(function(e) {
 		e.preventDefault();
 		$("#formFieldBuilding").submit();
+
 	});
 </script>

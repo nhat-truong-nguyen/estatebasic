@@ -19,6 +19,7 @@ import com.laptrinhjavaweb.dto.BuildingDTO;
 import com.laptrinhjavaweb.entity.BuildingEntity;
 import com.laptrinhjavaweb.enums.BuildingTypeEnum;
 import com.laptrinhjavaweb.enums.DistrictEnum;
+import com.laptrinhjavaweb.model.request.BuildingSearchRequest;
 import com.laptrinhjavaweb.model.response.BuildingSearchResponse;
 import com.laptrinhjavaweb.service.IBuildingService;
 import com.laptrinhjavaweb.service.impl.UserService;
@@ -36,21 +37,21 @@ public class BuildingController {
 	BuildingConverter buildingConverter;
 
 	@GetMapping("/building-list")
-	public ModelAndView buildingSearchForm(HttpSession session) {
+	public ModelAndView buildingSearchForm(@ModelAttribute("searchModel") BuildingSearchRequest searchModel) {
 		ModelAndView mav = new ModelAndView("admin/building-list");
-		mav.addObject("districts", DistrictEnum.values())
+		mav.addObject("searchModel", searchModel).addObject("districts", DistrictEnum.values())
 				.addObject("rentTypes", BuildingTypeEnum.values()).addObject("staffs", userService.findAllStaff())
 				.addObject("buildings", buildingService.findAll());
 		return mav;
 	}
 
 	@GetMapping("/building-search")
-	public ModelAndView buildingSearchList(@RequestParam Map<String, String> params,
-			@RequestParam("rentType") List<String> rentTypes) {
+	public ModelAndView buildingSearchList(@ModelAttribute("searchModel") BuildingSearchRequest searchModel) {
 		ModelAndView mav = new ModelAndView("admin/building-list");
-		List<BuildingSearchResponse> buildings = buildingService.findBuildings(params, rentTypes);
-		mav.addObject("districts", DistrictEnum.values()).addObject("rentTypes", BuildingTypeEnum.values())
-				.addObject("staffs", userService.findAllStaff()).addObject("buildings", buildings);
+		List<BuildingSearchResponse> buildings = buildingService.findBuildings(searchModel);
+		mav.addObject("searchModel", searchModel).addObject("districts", DistrictEnum.values())
+				.addObject("rentTypes", BuildingTypeEnum.values()).addObject("staffs", userService.findAllStaff())
+				.addObject("buildings", buildings);
 		return mav;
 	}
 
@@ -69,7 +70,7 @@ public class BuildingController {
 		return mav;
 	}
 
-	@PostMapping(value = {"/building-update", "/building-save"})
+	@PostMapping(value = { "/building-update", "/building-save" })
 	public ModelAndView updateBuilding(@ModelAttribute("buildingModel") BuildingDTO dto) {
 		buildingService.saveOrUpdate(dto);
 		ModelAndView mav = new ModelAndView("redirect:building-list");
