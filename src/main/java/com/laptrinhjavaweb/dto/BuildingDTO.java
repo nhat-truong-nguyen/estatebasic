@@ -1,15 +1,13 @@
 package com.laptrinhjavaweb.dto;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
-
-import com.laptrinhjavaweb.entity.AssignmentBuildingEntity;
+import com.laptrinhjavaweb.entity.UserEntity;
 
 public class BuildingDTO {
 	private Long id;
 	private String rentAreas;
-	List<AssignmentBuildingEntity> assignmentBuildings = new ArrayList<>();
+	List<UserEntity> users;
 	private String name;
 	private String street;
 	private String ward;
@@ -61,12 +59,12 @@ public class BuildingDTO {
 		this.rentAreas = rentAreas;
 	}
 
-	public List<AssignmentBuildingEntity> getAssignmentBuildings() {
-		return assignmentBuildings;
+	public List<UserEntity> getUsers() {
+		return users;
 	}
 
-	public void setAssignmentBuildings(List<AssignmentBuildingEntity> assignmentBuildings) {
-		this.assignmentBuildings = assignmentBuildings;
+	public void setUsers(List<UserEntity> users) {
+		this.users = users;
 	}
 
 	public String getName() {

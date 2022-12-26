@@ -3,20 +3,25 @@ package com.laptrinhjavaweb.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "building")
 public class BuildingEntity extends BaseEntity {
-	@OneToMany(mappedBy = "building", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "building", fetch = FetchType.LAZY, cascade=CascadeType.ALL)
 	List<RentAreaEntity> rentAreas = new ArrayList<>();
 
-	@OneToMany(mappedBy = "building", fetch = FetchType.LAZY)
-	List<AssignmentBuildingEntity> assignmentBuildings = new ArrayList<>();
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "assignmentbuilding", joinColumns = @JoinColumn(name = "buildingid", nullable = false), inverseJoinColumns = @JoinColumn(name = "userid", nullable = false))
+	List<UserEntity> users = new ArrayList<>();
 
 	@Column(name = "name")
 	private String name;
@@ -348,14 +353,6 @@ public class BuildingEntity extends BaseEntity {
 		this.rentAreas = rentAreas;
 	}
 
-	public List<AssignmentBuildingEntity> getAssignmentBuildings() {
-		return assignmentBuildings;
-	}
-
-	public void setAssignmentBuildings(List<AssignmentBuildingEntity> assignmentBuildings) {
-		this.assignmentBuildings = assignmentBuildings;
-	}
-
 	public String getRentPriceDescription() {
 		return rentPriceDescription;
 	}
@@ -378,5 +375,13 @@ public class BuildingEntity extends BaseEntity {
 
 	public void setRentAreaDescription(String rentAreaDescription) {
 		this.rentAreaDescription = rentAreaDescription;
+	}
+
+	public List<UserEntity> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<UserEntity> users) {
+		this.users = users;
 	}
 }

@@ -3,19 +3,22 @@ package com.laptrinhjavaweb.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "customer")
 public class CustomerEntity extends BaseEntity {
-	@OneToMany(mappedBy = "customer")
+	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
 	private List<TransactionEntity> transactions = new ArrayList<>();
 	
-	@OneToMany(mappedBy = "customer")
-	private List<AssignmentCustomerEntity> assignmentCustomers = new ArrayList<>();
+    @ManyToMany(mappedBy = "customers", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<UserEntity> users = new ArrayList<>();
 
 	@Column(name = "fullname")
 	private String fullName;

@@ -7,5 +7,4 @@ import com.laptrinhjavaweb.entity.RentAreaEntity;
 
 @Repository
 public interface RentAreaRepository extends JpaRepository<RentAreaEntity, Long>{
-	void deleteByBuilding(Long id);
 }

@@ -1,6 +1,9 @@
 package com.laptrinhjavaweb.repository;
 
 import com.laptrinhjavaweb.entity.UserEntity;
+
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,4 +16,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     long countByUserNameContainingIgnoreCaseOrFullNameContainingIgnoreCaseAndStatusNot(String userName, String fullName, int status);
     long countByStatusNot(int status);
     UserEntity findOneByUserName(String userName);
+    
+    List<UserEntity> findByIdIn(List<Long> ids);
 }

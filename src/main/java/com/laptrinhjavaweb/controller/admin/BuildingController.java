@@ -81,7 +81,7 @@ public class BuildingController {
 	}
 
 	@PostMapping("/assign-building")
-	public ModelAndView assignBuilding(@RequestParam("staffIds") List<Long> staffIds,
+	public ModelAndView assignBuilding(@RequestParam(name = "staffIds", required=false) List<Long> staffIds,
 			@RequestParam("buildingId") Long buildingId) {
 		ModelAndView mav = new ModelAndView("redirect:/admin/building-list");
 		buildingService.assignBuilding(staffIds, buildingId);

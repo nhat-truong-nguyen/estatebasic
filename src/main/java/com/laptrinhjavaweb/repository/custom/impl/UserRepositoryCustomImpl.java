@@ -28,7 +28,7 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
 	@Override
 	public List<UserEntity> findStaffsByBuildingId(Long buildingId) {
 		StringBuilder jpql = new StringBuilder("SELECT u.* FROM users u")
-				.append("\nJOIN assignmentbuilding ab ON u.id = ab.staffid")
+				.append("\nJOIN assignmentbuilding ab ON u.id = ab.userid")
 				.append("\nWHERE ab.buildingid = ").append(buildingId);
 		return entityManager.createNativeQuery(jpql.toString(), UserEntity.class).getResultList();
 	}

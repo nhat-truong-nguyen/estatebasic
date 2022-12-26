@@ -1,5 +1,6 @@
 package com.laptrinhjavaweb.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -9,7 +10,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "transaction")
 public class TransactionEntity extends BaseEntity {
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "customerid")
 	private CustomerEntity customer;
 
