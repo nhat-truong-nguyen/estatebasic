@@ -19,6 +19,7 @@ import com.laptrinhjavaweb.repository.RentAreaRepository;
 import com.laptrinhjavaweb.repository.UserRepository;
 import com.laptrinhjavaweb.repository.custom.BuildingRepositoryCustom;
 import com.laptrinhjavaweb.repository.custom.RentAreaRepositoryCustom;
+import com.laptrinhjavaweb.repository.custom.UserRepositoryCustom;
 import com.laptrinhjavaweb.service.IBuildingService;
 
 @Service
@@ -39,6 +40,9 @@ public class BuildingService implements IBuildingService {
 	BuildingConverter buildingConverter;
 	
 	@Autowired
+	UserRepositoryCustom userRepositoryCustom;
+	
+	@Autowired
 	UserRepository userRepository;
 
 	@Override
@@ -52,6 +56,12 @@ public class BuildingService implements IBuildingService {
 	public BuildingDTO findById(Long id) {
 		return buildingConverter.toBuildingDTORequest(buildingRepository.findOne(id));
 	}
+	
+	@Override
+	public List<BuildingSearchResponse> findAll() {
+		List<BuildingEntity> list = buildingRepository.findAll();
+		return buildingConverter.toListBuildingDTO(list);
+	}
 
 	@Override
 	@Transactional
@@ -59,22 +69,17 @@ public class BuildingService implements IBuildingService {
 		BuildingEntity buildingEntity = buildingConverter.toBuildingEntity(dto);
 		
 		if (buildingEntity.getId() != null) {
-			rentAreaRepositoryCustom.deleteByBuildingId(buildingEntity.getId());
+			List<UserEntity> users = userRepositoryCustom.findStaffsByBuildingId(buildingEntity.getId());
+			buildingEntity.setUsers(users);
 		}
-
-		buildingRepository.save(buildingConverter.toBuildingEntity(dto)).getId();
+		
+		buildingRepository.save(buildingEntity);
 	}
 
 	@Override
 	@Transactional
 	public void delete(Long[] ids) {
 		buildingRepository.deleteByIdIn(ids);
-	}
-
-	@Override
-	public List<BuildingSearchResponse> findAll() {
-		List<BuildingEntity> list = buildingRepository.findAll();
-		return buildingConverter.toListBuildingDTO(list);
 	}
 
 	@Override

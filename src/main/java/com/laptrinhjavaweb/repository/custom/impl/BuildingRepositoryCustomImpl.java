@@ -1,5 +1,6 @@
 package com.laptrinhjavaweb.repository.custom.impl;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -36,47 +37,56 @@ public class BuildingRepositoryCustomImpl implements BuildingRepositoryCustom {
 		StringBuilder joinQuery = new StringBuilder();
 
 		buildQueryWithJoin(searchModel, whereQuery, joinQuery);
-		buildQueryWithoutJoin(searchModel, whereQuery);
+		buildCommonQuery(searchModel, whereQuery);
+		buildSpecialQuery(searchModel, whereQuery);
 
 		finalQuery.append(joinQuery);
 		finalQuery.append("\nWHERE 1 = 1");
 		finalQuery.append(whereQuery);
 		finalQuery.append("\nGROUP BY b.id");
-		
+
 		Query query = entityManager.createQuery(finalQuery.toString(), BuildingEntity.class);
 		return query.getResultList();
 	}
 
-	private void buildQueryWithoutJoin(BuildingSearchRequest searchModel, StringBuilder whereQuery) {
+	private void buildCommonQuery(BuildingSearchRequest searchModel,StringBuilder whereQuery) {
+		Field[] fields = BuildingSearchRequest.class.getDeclaredFields();
 
-		if (ValidationUtil.isNotBlank(searchModel.getName())) {
-			whereQuery.append("\nAND b.name LIKE '%").append(searchModel.getName()).append("%'");
+		for (Field field : fields) {
+			field.setAccessible(true);
+			String fieldName = field.getName();
+
+			if (fieldName.equals("staffId")
+				|| fieldName.equals("rentPriceFrom")
+				|| fieldName.equals("rentPriceTo")
+				|| fieldName.equals("rentAreaFrom")
+				|| fieldName.equals("rentAreaTo")
+				|| fieldName.equals("rentType")
+				) {
+				continue;
+			}			
+
+			try {
+				Object value = field.get(searchModel);
+				
+				if (ValidationUtil.isNotBlank((String) value)) {
+					whereQuery.append("\nAND b.").append(fieldName);
+					
+					if (value instanceof String) {
+						whereQuery.append("\nLIKE '%").append(value.toString().trim()).append("%'");
+					} else if (value instanceof Integer) {
+						whereQuery.append("=").append(value.toString().trim());
+					}	
+				}
+			} catch (IllegalArgumentException | IllegalAccessException e) {
+				e.printStackTrace();
+			}
+
 		}
 
-		if (searchModel.getFloorArea() != null) {
-			whereQuery.append("\nAND b.floorArea = ").append(searchModel.getFloorArea());
-		}
-
-		if (ValidationUtil.isNotBlank(searchModel.getWard())) {
-			whereQuery.append("\nAND b.ward LIKE '%").append(searchModel.getWard()).append("%'");
-		}
-
-		if (ValidationUtil.isNotBlank(searchModel.getStreet())) {
-			whereQuery.append("\nAND b.street LIKE '%").append(searchModel.getStreet()).append("%'");
-		}
-
-		if (searchModel.getNumberOfBasement() != null) {
-			whereQuery.append("\nAND b.numberOfBasement = ").append(searchModel.getNumberOfBasement());
-		}
-
-		if (ValidationUtil.isNotBlank(searchModel.getDirection())) {
-			whereQuery.append("\nAND b.direction LIKE '%").append(searchModel.getDirection()).append("%'");
-		}
-
-		if (ValidationUtil.isNotBlank(searchModel.getLevel())) {
-			whereQuery.append("\nAND b.level LIKE ").append("'%").append(searchModel.getLevel()).append("%'");
-		}
-
+	}
+	
+	private void buildSpecialQuery(BuildingSearchRequest searchModel,StringBuilder whereQuery) {
 		if (searchModel.getRentPriceFrom() != null) {
 			whereQuery.append("\nAND b.rentPrice >= ").append(searchModel.getRentPriceFrom());
 		}
@@ -85,17 +95,6 @@ public class BuildingRepositoryCustomImpl implements BuildingRepositoryCustom {
 			whereQuery.append("\nAND b.rentPrice <= ").append(searchModel.getRentPriceTo());
 		}
 
-		if (ValidationUtil.isNotBlank(searchModel.getManagerName())) {
-			whereQuery.append("\nAND b.managerName LIKE '%").append(searchModel.getManagerName()).append("%'");
-		}
-
-		if (ValidationUtil.isNotBlank(searchModel.getManagerPhone())) {
-			whereQuery.append("\nAND b.managerPhone LIKE '%").append(searchModel.getManagerPhone()).append("%'");
-		}
-
-		if (ValidationUtil.isNotBlank(searchModel.getDistrict())) {
-			whereQuery.append("\nAND b.district = '").append(searchModel.getDistrict()).append("'");
-		}
 
 		if (searchModel.getRentType() != null) {
 			whereQuery.append("\nAND (b.type LIKE\t");
@@ -104,7 +103,8 @@ public class BuildingRepositoryCustomImpl implements BuildingRepositoryCustom {
 		}
 	}
 
-	public void buildQueryWithJoin(BuildingSearchRequest searchModel, StringBuilder whereQuery, StringBuilder joinQuery) {
+	public void buildQueryWithJoin(BuildingSearchRequest searchModel, StringBuilder whereQuery,
+			StringBuilder joinQuery) {
 		if (searchModel.getRentAreaFrom() != null || searchModel.getRentAreaTo() != null) {
 			joinQuery.append("\nJOIN b.rentAreas ra");
 		}

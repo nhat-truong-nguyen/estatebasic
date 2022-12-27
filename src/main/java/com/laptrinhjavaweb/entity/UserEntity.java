@@ -37,7 +37,7 @@ public class UserEntity extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "roleid", nullable = false))
     private List<CustomerEntity> customers = new ArrayList<>();
     
-    @ManyToMany(mappedBy="users", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy="users", fetch=FetchType.LAZY, cascade = CascadeType.MERGE)
     List<BuildingEntity> buildings;
 
     public String getUserName() {

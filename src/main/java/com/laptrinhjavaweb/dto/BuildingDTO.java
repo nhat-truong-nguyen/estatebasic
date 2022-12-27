@@ -7,7 +7,7 @@ import com.laptrinhjavaweb.entity.UserEntity;
 public class BuildingDTO {
 	private Long id;
 	private String rentAreas;
-	List<UserEntity> users;
+	List<UserDTO> users;
 	private String name;
 	private String street;
 	private String ward;
@@ -57,14 +57,6 @@ public class BuildingDTO {
 
 	public void setRentAreas(String rentAreas) {
 		this.rentAreas = rentAreas;
-	}
-
-	public List<UserEntity> getUsers() {
-		return users;
-	}
-
-	public void setUsers(List<UserEntity> users) {
-		this.users = users;
 	}
 
 	public String getName() {
@@ -337,5 +329,9 @@ public class BuildingDTO {
 
 	public void setRentAreaDescription(String rentAreaDescription) {
 		this.rentAreaDescription = rentAreaDescription;
+	}
+
+	public void setUsers(List<UserDTO> users) {
+		this.users = users;
 	}
 }

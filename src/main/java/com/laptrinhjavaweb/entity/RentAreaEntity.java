@@ -10,7 +10,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="rentarea")
 public class RentAreaEntity extends BaseEntity {
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name="buildingid", nullable=false)
 	private BuildingEntity building;
 	
@@ -32,4 +32,6 @@ public class RentAreaEntity extends BaseEntity {
 	public void setValue(Integer value) {
 		this.value = value;
 	}
+	
+	
 }
