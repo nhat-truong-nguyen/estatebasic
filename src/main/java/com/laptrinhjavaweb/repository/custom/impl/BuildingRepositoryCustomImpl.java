@@ -30,7 +30,7 @@ public class BuildingRepositoryCustomImpl implements BuildingRepositoryCustom {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<BuildingEntity> findBuildings(BuildingSearchRequest searchModel) {
-		StringBuilder finalQuery = new StringBuilder("SELECT b.* FROM building b");
+		StringBuilder finalQuery = new StringBuilder("SELECT b FROM BuildingEntity b");
 
 		StringBuilder whereQuery = new StringBuilder();
 		StringBuilder joinQuery = new StringBuilder();
@@ -43,7 +43,7 @@ public class BuildingRepositoryCustomImpl implements BuildingRepositoryCustom {
 		finalQuery.append(whereQuery);
 		finalQuery.append("\nGROUP BY b.id");
 		
-		Query query = entityManager.createNativeQuery(finalQuery.toString(), BuildingEntity.class);
+		Query query = entityManager.createQuery(finalQuery.toString(), BuildingEntity.class);
 		return query.getResultList();
 	}
 
@@ -54,7 +54,7 @@ public class BuildingRepositoryCustomImpl implements BuildingRepositoryCustom {
 		}
 
 		if (searchModel.getFloorArea() != null) {
-			whereQuery.append("\nAND b.floorarea = ").append(searchModel.getFloorArea());
+			whereQuery.append("\nAND b.floorArea = ").append(searchModel.getFloorArea());
 		}
 
 		if (ValidationUtil.isNotBlank(searchModel.getWard())) {
@@ -66,7 +66,7 @@ public class BuildingRepositoryCustomImpl implements BuildingRepositoryCustom {
 		}
 
 		if (searchModel.getNumberOfBasement() != null) {
-			whereQuery.append("\nAND b.numberofbasement = ").append(searchModel.getNumberOfBasement());
+			whereQuery.append("\nAND b.numberOfBasement = ").append(searchModel.getNumberOfBasement());
 		}
 
 		if (ValidationUtil.isNotBlank(searchModel.getDirection())) {
@@ -78,19 +78,19 @@ public class BuildingRepositoryCustomImpl implements BuildingRepositoryCustom {
 		}
 
 		if (searchModel.getRentPriceFrom() != null) {
-			whereQuery.append("\nAND b.rentprice >= ").append(searchModel.getRentPriceFrom());
+			whereQuery.append("\nAND b.rentPrice >= ").append(searchModel.getRentPriceFrom());
 		}
 
 		if (searchModel.getRentPriceTo() != null) {
-			whereQuery.append("\nAND b.rentprice <= ").append(searchModel.getRentPriceTo());
+			whereQuery.append("\nAND b.rentPrice <= ").append(searchModel.getRentPriceTo());
 		}
 
 		if (ValidationUtil.isNotBlank(searchModel.getManagerName())) {
-			whereQuery.append("\nAND b.managername LIKE '%").append(searchModel.getManagerName()).append("%'");
+			whereQuery.append("\nAND b.managerName LIKE '%").append(searchModel.getManagerName()).append("%'");
 		}
 
 		if (ValidationUtil.isNotBlank(searchModel.getManagerPhone())) {
-			whereQuery.append("\nAND b.managerphone LIKE '%").append(searchModel.getManagerPhone()).append("%'");
+			whereQuery.append("\nAND b.managerPhone LIKE '%").append(searchModel.getManagerPhone()).append("%'");
 		}
 
 		if (ValidationUtil.isNotBlank(searchModel.getDistrict())) {
@@ -106,7 +106,7 @@ public class BuildingRepositoryCustomImpl implements BuildingRepositoryCustom {
 
 	public void buildQueryWithJoin(BuildingSearchRequest searchModel, StringBuilder whereQuery, StringBuilder joinQuery) {
 		if (searchModel.getRentAreaFrom() != null || searchModel.getRentAreaTo() != null) {
-			joinQuery.append("\nJOIN rentarea ra ON b.id = ra.buildingid");
+			joinQuery.append("\nJOIN b.rentAreas ra");
 		}
 
 		if (searchModel.getRentAreaFrom() != null) {
@@ -118,7 +118,7 @@ public class BuildingRepositoryCustomImpl implements BuildingRepositoryCustom {
 		}
 
 		if (searchModel.getStaffId() != null) {
-			joinQuery.append("\nJOIN assignmentbuilding ab on b.id = ab.buildingid").append("\nJOIN users u ON ab.userid = u.id");
+			joinQuery.append("\nJOIN b.users u");
 			whereQuery.append("\nAND u.id = ").append(searchModel.getStaffId());
 		}
 	}
