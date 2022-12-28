@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Dec 24, 2022 at 10:25 AM
+-- Generation Time: Dec 28, 2022 at 01:53 PM
 -- Server version: 8.0.16
 -- PHP Version: 7.4.26
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `estatedb`
+-- Database: `estateadvance`
 --
 
 -- --------------------------------------------------------
@@ -29,27 +29,26 @@ SET time_zone = "+00:00";
 
 DROP TABLE IF EXISTS `assignmentbuilding`;
 CREATE TABLE IF NOT EXISTS `assignmentbuilding` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `createdby` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `createddate` datetime DEFAULT NULL,
-  `modifiedby` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `modifieddate` datetime DEFAULT NULL,
   `buildingid` bigint(20) NOT NULL,
-  `staffid` bigint(20) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FKkk3mdegrmfcdlsxqds1m6q238` (`buildingid`),
-  KEY `FK5ml77mpq20c7cktnaayqyndi` (`staffid`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `userid` bigint(20) NOT NULL,
+  KEY `FKedql9q7wl9jh4qpk8idb4nko3` (`userid`),
+  KEY `FKkk3mdegrmfcdlsxqds1m6q238` (`buildingid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `assignmentbuilding`
 --
 
-INSERT INTO `assignmentbuilding` (`id`, `createdby`, `createddate`, `modifiedby`, `modifieddate`, `buildingid`, `staffid`) VALUES
-(8, NULL, NULL, NULL, NULL, 4, 2),
-(9, NULL, NULL, NULL, NULL, 4, 3),
-(10, NULL, NULL, NULL, NULL, 4, 4),
-(11, NULL, NULL, NULL, NULL, 4, 5);
+INSERT INTO `assignmentbuilding` (`buildingid`, `userid`) VALUES
+(3, 2),
+(3, 3),
+(3, 4),
+(3, 5),
+(4, 3),
+(4, 4),
+(2, 2),
+(2, 3),
+(2, 4);
 
 -- --------------------------------------------------------
 
@@ -59,16 +58,10 @@ INSERT INTO `assignmentbuilding` (`id`, `createdby`, `createddate`, `modifiedby`
 
 DROP TABLE IF EXISTS `assignmentcustomer`;
 CREATE TABLE IF NOT EXISTS `assignmentcustomer` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `createdby` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `createddate` datetime DEFAULT NULL,
-  `modifiedby` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `modifieddate` datetime DEFAULT NULL,
-  `customerid` bigint(20) NOT NULL,
-  `staffid` bigint(20) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK4sygo3a6twd6tkay7em8f1lgg` (`customerid`),
-  KEY `FKqjgn6avtjckryyksmwrjn474o` (`staffid`)
+  `userid` bigint(20) NOT NULL,
+  `roleid` bigint(20) NOT NULL,
+  KEY `FK7eu59m1tvj1ynopcyo1sttrhn` (`roleid`),
+  KEY `FKsi3s4mxxco4rh92usq7wgdyrm` (`userid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -115,18 +108,16 @@ CREATE TABLE IF NOT EXISTS `building` (
   `ward` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `waterfee` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `building`
 --
 
 INSERT INTO `building` (`id`, `createdby`, `createddate`, `modifiedby`, `modifieddate`, `brokeragefee`, `carfee`, `decorationtime`, `deposit`, `direction`, `district`, `electricityfee`, `floorarea`, `image`, `level`, `linkofbuilding`, `managername`, `managerphone`, `map`, `motorbikefee`, `name`, `note`, `numberofbasement`, `overtimefee`, `payment`, `rentareadescription`, `rentprice`, `rentpricedescription`, `renttime`, `servicefee`, `street`, `structure`, `type`, `ward`, `waterfee`) VALUES
-(4, NULL, NULL, NULL, NULL, 0.7, '', '', '', '', 'QUAN_1', '', 500, NULL, '', NULL, 'nguyen van b', '01234567890', NULL, '', 'Nam Giao Building Tower', '', 2, '4', '', '290m2(lầu lừng), 150m2(lầu 4)', 15, '15 triệu/m2', '', '4', '59 phan xích long', '', 'TANG_TRET,NGUYEN_CAN', 'Phường 2', NULL),
-(5, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'QUAN_2', NULL, 650, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ACM Tower', NULL, 2, NULL, NULL, NULL, 18, '18 triệu/m2', NULL, NULL, '96 cao thắng', NULL, 'NGUYEN_CAN', 'Phường 4', NULL),
-(6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'QUAN_1', NULL, 200, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Alpha 2 Building Tower', NULL, 1, NULL, NULL, NULL, 20, '20 triệu/m2', NULL, NULL, '153 nguyễn đình chiểu', NULL, 'NOI_THAT', 'Phường 6', NULL),
-(7, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'QUAN_1', NULL, 500, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Nam Giao Building Tower', NULL, 2, NULL, NULL, NULL, 15, '15 triệu/m2', NULL, NULL, '59 phan xích long', NULL, 'TANG_TRET,NGUYEN_CAN', 'Phường 2', NULL),
-(8, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'QUAN_2', NULL, 650, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ACM Tower', NULL, 2, NULL, NULL, NULL, 18, '18 triệu/m2', NULL, NULL, '96 cao thắng', NULL, 'NGUYEN_CAN', 'Phường 4', NULL);
+(2, NULL, NULL, 'admin', '2022-12-28 20:49:57', NULL, '', '', '', '', 'QUAN_2', '', 650, NULL, '', NULL, '', '', NULL, '', 'ACM Tower', 'Chua co ghi chu', 2, '', '', '', 18, '18 triệu/m2', '', '', '96 cao thắng', '', 'TANG_TRET,NGUYEN_CAN,NOI_THAT', 'Phường 4', NULL),
+(3, NULL, NULL, 'admin', '2022-12-27 23:55:46', NULL, '', '', '', '', 'QUAN_1', '', 200, NULL, '', NULL, '', '', NULL, '', 'Alpha 2 Building Tower', '', 1, '', '', '', 20, '20 triệu/m2', '', '', '153 nguyễn đình chiểu', '', 'NOI_THAT', 'Phường 6', NULL),
+(4, NULL, NULL, 'admin', '2022-12-27 23:56:04', NULL, '', '', '', '', 'QUAN_1', '', 500, NULL, '', NULL, '', '', NULL, '', 'Nam Giao Building Tower', '', 2, '', '', '', 15, '15 triệu/m2', '', '', '59 phan xích long', '', 'TANG_TRET,NGUYEN_CAN', 'Phường 2', NULL);
 
 -- --------------------------------------------------------
 
@@ -164,7 +155,22 @@ CREATE TABLE IF NOT EXISTS `rentarea` (
   `buildingid` bigint(20) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FKqhqoxlvm1iblaew5s0v8n3ut4` (`buildingid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `rentarea`
+--
+
+INSERT INTO `rentarea` (`id`, `createdby`, `createddate`, `modifiedby`, `modifieddate`, `value`, `buildingid`) VALUES
+(26, 'admin', '2022-12-27 22:18:51', 'admin', '2022-12-27 22:18:51', 100, 4),
+(27, 'admin', '2022-12-27 22:18:51', 'admin', '2022-12-27 22:18:51', 200, 4),
+(28, 'admin', '2022-12-27 22:18:51', 'admin', '2022-12-27 22:18:51', 300, 4),
+(47, 'admin', '2022-12-27 23:55:46', 'admin', '2022-12-27 23:55:46', 100, 3),
+(48, 'admin', '2022-12-27 23:55:46', 'admin', '2022-12-27 23:55:46', 200, 3),
+(49, 'admin', '2022-12-27 23:55:46', 'admin', '2022-12-27 23:55:46', 300, 3),
+(50, 'admin', '2022-12-28 20:49:57', 'admin', '2022-12-28 20:49:57', 100, 2),
+(51, 'admin', '2022-12-28 20:49:57', 'admin', '2022-12-28 20:49:57', 200, 2),
+(52, 'admin', '2022-12-28 20:49:57', 'admin', '2022-12-28 20:49:57', 300, 2);
 
 -- --------------------------------------------------------
 
@@ -280,15 +286,15 @@ INSERT INTO `user_role` (`user_id`, `role_id`) VALUES
 -- Constraints for table `assignmentbuilding`
 --
 ALTER TABLE `assignmentbuilding`
-  ADD CONSTRAINT `FK5ml77mpq20c7cktnaayqyndi` FOREIGN KEY (`staffid`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `FKedql9q7wl9jh4qpk8idb4nko3` FOREIGN KEY (`userid`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `FKkk3mdegrmfcdlsxqds1m6q238` FOREIGN KEY (`buildingid`) REFERENCES `building` (`id`);
 
 --
 -- Constraints for table `assignmentcustomer`
 --
 ALTER TABLE `assignmentcustomer`
-  ADD CONSTRAINT `FK4sygo3a6twd6tkay7em8f1lgg` FOREIGN KEY (`customerid`) REFERENCES `customer` (`id`),
-  ADD CONSTRAINT `FKqjgn6avtjckryyksmwrjn474o` FOREIGN KEY (`staffid`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `FK7eu59m1tvj1ynopcyo1sttrhn` FOREIGN KEY (`roleid`) REFERENCES `customer` (`id`),
+  ADD CONSTRAINT `FKsi3s4mxxco4rh92usq7wgdyrm` FOREIGN KEY (`userid`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `rentarea`
