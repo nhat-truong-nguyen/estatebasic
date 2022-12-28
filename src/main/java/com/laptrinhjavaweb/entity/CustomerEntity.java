@@ -14,10 +14,10 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "customer")
 public class CustomerEntity extends BaseEntity {
-	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval=true)
 	private List<TransactionEntity> transactions = new ArrayList<>();
 	
-    @ManyToMany(mappedBy = "customers", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "customers", fetch = FetchType.LAZY)
     private List<UserEntity> users = new ArrayList<>();
 
 	@Column(name = "fullname")

@@ -34,7 +34,7 @@ public class BuildingAPI {
 	
 	@GetMapping("/api/staffs-list")
 	public List<UserDTO> findAllStaffs() {
-		return userService.findAllStaff();
+		return userService.findAllStaffs();
 	}
 	
 	@GetMapping("/api/staffs")

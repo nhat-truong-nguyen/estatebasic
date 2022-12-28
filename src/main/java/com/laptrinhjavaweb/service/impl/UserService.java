@@ -1,5 +1,16 @@
 package com.laptrinhjavaweb.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import com.laptrinhjavaweb.constant.SystemConstant;
 import com.laptrinhjavaweb.converter.UserConverter;
 import com.laptrinhjavaweb.dto.PasswordDTO;
@@ -9,29 +20,13 @@ import com.laptrinhjavaweb.entity.UserEntity;
 import com.laptrinhjavaweb.exception.MyException;
 import com.laptrinhjavaweb.repository.RoleRepository;
 import com.laptrinhjavaweb.repository.UserRepository;
-import com.laptrinhjavaweb.repository.custom.UserRepositoryCustom;
 import com.laptrinhjavaweb.service.IUserService;
-import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class UserService implements IUserService {
 
     @Autowired
     private UserRepository userRepository;
-    
-	@Autowired
-	private UserRepositoryCustom userRepositoryCustom;
 
     @Autowired
     private RoleRepository roleRepository;
@@ -158,12 +153,12 @@ public class UserService implements IUserService {
     }
     
 	@Override
-	public List<UserDTO> findAllStaff() {
-		return userConverter.toListBuildingDTO(userRepositoryCustom.findAllStaffs());
+	public List<UserDTO> findAllStaffs() {
+		return userConverter.toListBuildingDTO(userRepository.findUsersByRoles_Code("user"));
 	}
 
 	@Override
 	public List<UserDTO> findStaffsByBuildingId(Long buildingId) {
-		return  userConverter.toListBuildingDTO(userRepositoryCustom.findStaffsByBuildingId(buildingId));
+		return  userConverter.toListBuildingDTO(userRepository.findStaffsByBuildings_Id(buildingId));
 	}
 }

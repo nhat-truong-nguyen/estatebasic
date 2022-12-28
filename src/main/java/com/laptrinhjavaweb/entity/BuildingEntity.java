@@ -21,7 +21,7 @@ public class BuildingEntity extends BaseEntity {
 	@OneToMany(mappedBy = "building", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<RentAreaEntity> rentAreas = new ArrayList<>();
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "assignmentbuilding", joinColumns = @JoinColumn(name = "buildingid", nullable = false), inverseJoinColumns = @JoinColumn(name = "userid", nullable = false))
 	List<UserEntity> users = new ArrayList<>();
 

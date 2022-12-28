@@ -36,7 +36,7 @@ public class BuildingController {
 	public ModelAndView buildingSearchForm(@ModelAttribute("searchModel") BuildingSearchRequest searchModel) {
 		ModelAndView mav = new ModelAndView("admin/building-list");
 		mav.addObject("searchModel", searchModel).addObject("districts", DistrictEnum.values())
-				.addObject("rentTypes", BuildingTypeEnum.values()).addObject("staffs", userService.findAllStaff())
+				.addObject("rentTypes", BuildingTypeEnum.values()).addObject("staffs", userService.findAllStaffs())
 				.addObject("buildings", buildingService.findAll());
 		return mav;
 	}
@@ -46,7 +46,7 @@ public class BuildingController {
 		ModelAndView mav = new ModelAndView("admin/building-list");
 		List<BuildingSearchResponse> buildings = buildingService.findBuildings(searchModel);
 		mav.addObject("searchModel", searchModel).addObject("districts", DistrictEnum.values())
-				.addObject("rentTypes", BuildingTypeEnum.values()).addObject("staffs", userService.findAllStaff())
+				.addObject("rentTypes", BuildingTypeEnum.values()).addObject("staffs", userService.findAllStaffs())
 				.addObject("buildings", buildings);
 		return mav;
 	}

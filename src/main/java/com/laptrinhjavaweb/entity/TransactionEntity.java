@@ -10,7 +10,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "transaction")
 public class TransactionEntity extends BaseEntity {
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "customerid")
 	private CustomerEntity customer;
 

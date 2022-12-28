@@ -9,6 +9,21 @@ import java.util.List;
 public class UserEntity extends BaseEntity {
 
     private static final long serialVersionUID = -4988455421375043688L;
+    
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "role_id", nullable = false))
+    private List<RoleEntity> roles = new ArrayList<>();
+    
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "assignmentcustomer",
+            joinColumns = @JoinColumn(name = "userid", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "roleid", nullable = false))
+    private List<CustomerEntity> customers = new ArrayList<>();
+    
+    @ManyToMany(mappedBy="users", fetch=FetchType.LAZY)
+    List<BuildingEntity> buildings;
 
     @Column(name = "username", nullable = false, unique = true)
     private String userName;
@@ -24,21 +39,6 @@ public class UserEntity extends BaseEntity {
 
     @Column(name = "email", unique = true)
     private String email;
-
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "user_role",
-            joinColumns = @JoinColumn(name = "user_id", nullable = false),
-            inverseJoinColumns = @JoinColumn(name = "role_id", nullable = false))
-    private List<RoleEntity> roles = new ArrayList<>();
-    
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "assignmentcustomer",
-            joinColumns = @JoinColumn(name = "userid", nullable = false),
-            inverseJoinColumns = @JoinColumn(name = "roleid", nullable = false))
-    private List<CustomerEntity> customers = new ArrayList<>();
-    
-    @ManyToMany(mappedBy="users", fetch=FetchType.LAZY, cascade = CascadeType.MERGE)
-    List<BuildingEntity> buildings;
 
     public String getUserName() {
         return userName;

@@ -14,7 +14,6 @@ import com.laptrinhjavaweb.entity.BuildingEntity;
 import com.laptrinhjavaweb.model.request.BuildingSearchRequest;
 import com.laptrinhjavaweb.repository.RentAreaRepository;
 import com.laptrinhjavaweb.repository.custom.BuildingRepositoryCustom;
-import com.laptrinhjavaweb.repository.custom.RentAreaRepositoryCustom;
 import com.laptrinhjavaweb.utils.ValidationUtil;
 
 @Repository
@@ -24,9 +23,6 @@ public class BuildingRepositoryCustomImpl implements BuildingRepositoryCustom {
 
 	@Autowired
 	private RentAreaRepository rentAreaRepository;
-
-	@Autowired
-	private RentAreaRepositoryCustom rentAreaRepositoryCustom;
 
 	@SuppressWarnings("unchecked")
 	@Override
