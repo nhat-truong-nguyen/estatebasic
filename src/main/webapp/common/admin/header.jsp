@@ -29,6 +29,17 @@
 				</ul></li>
 
 			<li><a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					Quản lý khách hàng &nbsp; <i
+					class="ace-icon fa fa-angle-down bigger-110"></i>
+			</a>
+
+				<ul class="dropdown-menu dropdown-light-blue dropdown-caret">
+					<li><a href="<c:url value='/admin/customer-list' />"> <i
+							class="ace-icon fa fa-eye bigger-110 blue"></i> DS khách hàng
+					</a></li>
+
+				</ul></li>
+			<li><a href="#" class="dropdown-toggle" data-toggle="dropdown">
 					Quản lý người dùng &nbsp; <i
 					class="ace-icon fa fa-angle-down bigger-110"></i>
 			</a>
@@ -38,10 +49,6 @@
 							class="ace-icon fa fa-eye bigger-110 blue"></i> DS người dùng
 					</a></li>
 				</ul></li>
-
-			<li><a href="#"> <i class="ace-icon fa fa-envelope"></i>
-					Messages <span class="badge badge-warning">5</span>
-			</a></li>
 		</ul>
 		</nav>
 

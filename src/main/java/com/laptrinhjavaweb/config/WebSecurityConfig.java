@@ -34,6 +34,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
     }
+    
+    @Bean
+    public AuthenticationSuccessHandler myAuthenticationSuccessHandler(){
+        return new CustomSuccessHandler();
+    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) {
@@ -56,8 +61,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().maximumSessions(1).expiredUrl("/login?sessionTimeout");
     }
 
-    @Bean
-    public AuthenticationSuccessHandler myAuthenticationSuccessHandler(){
-        return new CustomSuccessHandler();
-    }
 }
