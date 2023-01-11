@@ -11,8 +11,12 @@ import javax.persistence.Table;
 @Table(name = "transaction")
 public class TransactionEntity extends BaseEntity {
 	@ManyToOne(cascade = CascadeType.MERGE)
-	@JoinColumn(name = "customerid")
+	@JoinColumn(name = "customerid", nullable = false)
 	private CustomerEntity customer;
+	
+	@ManyToOne(cascade = CascadeType.MERGE)
+	@JoinColumn(name = "staffid", nullable =  false)
+	private UserEntity staff;
 
 	@Column(name = "note")
 	private String note;
@@ -42,5 +46,13 @@ public class TransactionEntity extends BaseEntity {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public UserEntity getStaff() {
+		return staff;
+	}
+
+	public void setStaff(UserEntity staff) {
+		this.staff = staff;
 	}
 }

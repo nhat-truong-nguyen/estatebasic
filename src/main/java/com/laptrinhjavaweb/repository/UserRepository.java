@@ -21,5 +21,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     
     List<UserEntity> findStaffsByBuildings_Id(Long buildingId);
     
+    List<UserEntity> findStaffsByCustomers_Id(Long customerId);
+    
     List<UserEntity> findUsersByRoles_Code(String code);
 }

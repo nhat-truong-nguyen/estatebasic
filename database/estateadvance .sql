@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Dec 28, 2022 at 01:53 PM
+-- Generation Time: Jan 11, 2023 at 02:40 PM
 -- Server version: 8.0.16
 -- PHP Version: 7.4.26
 
@@ -35,21 +35,6 @@ CREATE TABLE IF NOT EXISTS `assignmentbuilding` (
   KEY `FKkk3mdegrmfcdlsxqds1m6q238` (`buildingid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `assignmentbuilding`
---
-
-INSERT INTO `assignmentbuilding` (`buildingid`, `userid`) VALUES
-(3, 2),
-(3, 3),
-(3, 4),
-(3, 5),
-(4, 3),
-(4, 4),
-(2, 2),
-(2, 3),
-(2, 4);
-
 -- --------------------------------------------------------
 
 --
@@ -58,11 +43,19 @@ INSERT INTO `assignmentbuilding` (`buildingid`, `userid`) VALUES
 
 DROP TABLE IF EXISTS `assignmentcustomer`;
 CREATE TABLE IF NOT EXISTS `assignmentcustomer` (
+  `customerid` bigint(20) NOT NULL,
   `userid` bigint(20) NOT NULL,
-  `roleid` bigint(20) NOT NULL,
-  KEY `FK7eu59m1tvj1ynopcyo1sttrhn` (`roleid`),
-  KEY `FKsi3s4mxxco4rh92usq7wgdyrm` (`userid`)
+  KEY `FKsi3s4mxxco4rh92usq7wgdyrm` (`userid`),
+  KEY `FK4sygo3a6twd6tkay7em8f1lgg` (`customerid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `assignmentcustomer`
+--
+
+INSERT INTO `assignmentcustomer` (`customerid`, `userid`) VALUES
+(1, 2),
+(1, 4);
 
 -- --------------------------------------------------------
 
@@ -115,9 +108,11 @@ CREATE TABLE IF NOT EXISTS `building` (
 --
 
 INSERT INTO `building` (`id`, `createdby`, `createddate`, `modifiedby`, `modifieddate`, `brokeragefee`, `carfee`, `decorationtime`, `deposit`, `direction`, `district`, `electricityfee`, `floorarea`, `image`, `level`, `linkofbuilding`, `managername`, `managerphone`, `map`, `motorbikefee`, `name`, `note`, `numberofbasement`, `overtimefee`, `payment`, `rentareadescription`, `rentprice`, `rentpricedescription`, `renttime`, `servicefee`, `street`, `structure`, `type`, `ward`, `waterfee`) VALUES
-(2, NULL, NULL, 'admin', '2022-12-28 20:49:57', NULL, '', '', '', '', 'QUAN_2', '', 650, NULL, '', NULL, '', '', NULL, '', 'ACM Tower', 'Chua co ghi chu', 2, '', '', '', 18, '18 triệu/m2', '', '', '96 cao thắng', '', 'TANG_TRET,NGUYEN_CAN,NOI_THAT', 'Phường 4', NULL),
-(3, NULL, NULL, 'admin', '2022-12-27 23:55:46', NULL, '', '', '', '', 'QUAN_1', '', 200, NULL, '', NULL, '', '', NULL, '', 'Alpha 2 Building Tower', '', 1, '', '', '', 20, '20 triệu/m2', '', '', '153 nguyễn đình chiểu', '', 'NOI_THAT', 'Phường 6', NULL),
-(4, NULL, NULL, 'admin', '2022-12-27 23:56:04', NULL, '', '', '', '', 'QUAN_1', '', 500, NULL, '', NULL, '', '', NULL, '', 'Nam Giao Building Tower', '', 2, '', '', '', 15, '15 triệu/m2', '', '', '59 phan xích long', '', 'TANG_TRET,NGUYEN_CAN', 'Phường 2', NULL);
+(1, NULL, NULL, NULL, NULL, 0.7, '', '', '', '', 'QUAN_1', '', 500, NULL, '', NULL, 'nguyen van b', '01234567890', NULL, '', 'Nam Giao Building Tower', '', 2, '4', '', '290m2(lầu lừng), 150m2(lầu 4)', 15, '15 triệu/m2', '', '4', '59 phan xích long', '', 'TANG_TRET,NGUYEN_CAN', 'Phường 2', NULL),
+(2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'QUAN_2', NULL, 650, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ACM Tower', NULL, 2, NULL, NULL, NULL, 18, '18 triệu/m2', NULL, NULL, '96 cao thắng', NULL, 'NGUYEN_CAN', 'Phường 4', NULL),
+(3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'QUAN_1', NULL, 200, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Alpha 2 Building Tower', NULL, 1, NULL, NULL, NULL, 20, '20 triệu/m2', NULL, NULL, '153 nguyễn đình chiểu', NULL, 'NOI_THAT', 'Phường 6', NULL),
+(4, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'QUAN_1', NULL, 500, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Nam Giao Building Tower', NULL, 2, NULL, NULL, NULL, 15, '15 triệu/m2', NULL, NULL, '59 phan xích long', NULL, 'TANG_TRET,NGUYEN_CAN', 'Phường 2', NULL),
+(5, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'QUAN_2', NULL, 650, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ACM Tower', NULL, 2, NULL, NULL, NULL, 18, '18 triệu/m2', NULL, NULL, '96 cao thắng', NULL, 'NGUYEN_CAN', 'Phường 4', NULL);
 
 -- --------------------------------------------------------
 
@@ -132,11 +127,22 @@ CREATE TABLE IF NOT EXISTS `customer` (
   `createddate` datetime DEFAULT NULL,
   `modifiedby` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `modifieddate` datetime DEFAULT NULL,
+  `companyname` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `demand` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `fullname` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `note` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `customer`
+--
+
+INSERT INTO `customer` (`id`, `createdby`, `createddate`, `modifiedby`, `modifieddate`, `companyname`, `demand`, `email`, `fullname`, `note`, `phone`, `status`) VALUES
+(1, NULL, NULL, 'admin', '2023-01-11 21:38:28', 'ACB', 'Tầng trệt 70m2', 'nguyenvana@gmail.com', 'Nguyen Van A', 'Chua co ghi chu', '01234567', NULL);
 
 -- --------------------------------------------------------
 
@@ -155,22 +161,7 @@ CREATE TABLE IF NOT EXISTS `rentarea` (
   `buildingid` bigint(20) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FKqhqoxlvm1iblaew5s0v8n3ut4` (`buildingid`)
-) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `rentarea`
---
-
-INSERT INTO `rentarea` (`id`, `createdby`, `createddate`, `modifiedby`, `modifieddate`, `value`, `buildingid`) VALUES
-(26, 'admin', '2022-12-27 22:18:51', 'admin', '2022-12-27 22:18:51', 100, 4),
-(27, 'admin', '2022-12-27 22:18:51', 'admin', '2022-12-27 22:18:51', 200, 4),
-(28, 'admin', '2022-12-27 22:18:51', 'admin', '2022-12-27 22:18:51', 300, 4),
-(47, 'admin', '2022-12-27 23:55:46', 'admin', '2022-12-27 23:55:46', 100, 3),
-(48, 'admin', '2022-12-27 23:55:46', 'admin', '2022-12-27 23:55:46', 200, 3),
-(49, 'admin', '2022-12-27 23:55:46', 'admin', '2022-12-27 23:55:46', 300, 3),
-(50, 'admin', '2022-12-28 20:49:57', 'admin', '2022-12-28 20:49:57', 100, 2),
-(51, 'admin', '2022-12-28 20:49:57', 'admin', '2022-12-28 20:49:57', 200, 2),
-(52, 'admin', '2022-12-28 20:49:57', 'admin', '2022-12-28 20:49:57', 300, 2);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -214,10 +205,22 @@ CREATE TABLE IF NOT EXISTS `transaction` (
   `modifieddate` datetime DEFAULT NULL,
   `note` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `customerid` bigint(20) DEFAULT NULL,
+  `customerid` bigint(20) NOT NULL,
+  `staffid` bigint(20) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `FKldobv9jeuxje0fjqnhrw6e23v` (`customerid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  KEY `FKldobv9jeuxje0fjqnhrw6e23v` (`customerid`),
+  KEY `FKrsenqvwjhwtsiuyw4ht1cgpvp` (`staffid`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `transaction`
+--
+
+INSERT INTO `transaction` (`id`, `createdby`, `createddate`, `modifiedby`, `modifieddate`, `note`, `type`, `customerid`, `staffid`) VALUES
+(2, 'admin', '2023-01-11 14:36:02', 'admin', '2023-01-11 14:36:02', 'Goi dien thoai', 'QUA_TRINH_CHAM_SOC_KHACH_HANG', 1, 1),
+(6, 'admin', '2023-01-11 14:45:27', 'admin', '2023-01-11 14:45:27', 'Da dan di xem toa nha Landmark 81', 'DAN_DI_XEM', 1, 1),
+(11, 'admin', '2023-01-11 21:37:09', 'admin', '2023-01-11 21:37:09', 'Tu van gia nha', 'QUA_TRINH_CHAM_SOC_KHACH_HANG', 1, 1),
+(12, 'admin', '2023-01-11 21:37:24', 'admin', '2023-01-11 21:37:24', 'Da dan di xem toa Bitexco', 'DAN_DI_XEM', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -293,7 +296,7 @@ ALTER TABLE `assignmentbuilding`
 -- Constraints for table `assignmentcustomer`
 --
 ALTER TABLE `assignmentcustomer`
-  ADD CONSTRAINT `FK7eu59m1tvj1ynopcyo1sttrhn` FOREIGN KEY (`roleid`) REFERENCES `customer` (`id`),
+  ADD CONSTRAINT `FK4sygo3a6twd6tkay7em8f1lgg` FOREIGN KEY (`customerid`) REFERENCES `customer` (`id`),
   ADD CONSTRAINT `FKsi3s4mxxco4rh92usq7wgdyrm` FOREIGN KEY (`userid`) REFERENCES `users` (`id`);
 
 --
@@ -306,7 +309,8 @@ ALTER TABLE `rentarea`
 -- Constraints for table `transaction`
 --
 ALTER TABLE `transaction`
-  ADD CONSTRAINT `FKldobv9jeuxje0fjqnhrw6e23v` FOREIGN KEY (`customerid`) REFERENCES `customer` (`id`);
+  ADD CONSTRAINT `FKldobv9jeuxje0fjqnhrw6e23v` FOREIGN KEY (`customerid`) REFERENCES `customer` (`id`),
+  ADD CONSTRAINT `FKrsenqvwjhwtsiuyw4ht1cgpvp` FOREIGN KEY (`staffid`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `user_role`

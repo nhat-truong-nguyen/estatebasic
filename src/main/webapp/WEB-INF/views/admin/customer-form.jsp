@@ -3,12 +3,14 @@
 <%@ include file="/common/taglib.jsp"%>
 <c:choose>
 	<c:when test="${building == null }">
-		<c:url var="buildingCRUDUrl" value="/admin/building-save" />
+		<c:url var="customerCRUD" value="/admin/customer-save" />
 	</c:when>
 	<c:otherwise>
-		<c:url var="buildingCRUDUrl" value="/admin/building-update" />
+		<c:url var="customerCRUD" value="/admin/customer-update" />
 	</c:otherwise>
 </c:choose>
+
+<c:url var="transactionAddURL" value="/admin/transaction-add" />
 
 <div class="main-container" id="main-container">
 	<script type="text/javascript">
@@ -106,9 +108,11 @@
 								</h4>
 							</div>
 
-							<form action="${customerSearchURL }" method="get"
-								id="formSearchBuilding" class="widget-body">
+							<form:form action="${customerCRUD }" modelAttribute="model"
+								method="post" id="customerFormCRUD" class="widget-body">
 								<div class="widget-main">
+									<input type="hidden" class="form-control" name="id"
+										value="${customer.id }">
 									<div class="row">
 										<div class="col-sm-2">
 											<label for="fullName" class="form-label"><b>Tên
@@ -116,7 +120,7 @@
 										</div>
 										<div class="col-sm-10">
 											<input type="text" class="form-control" id="fullName"
-												name="fullName" />
+												name="fullName" value="${customer.fullName }" />
 										</div>
 									</div>
 									<br>
@@ -127,7 +131,7 @@
 										</div>
 										<div class="col-sm-10">
 											<input type="text" class="form-control" id="phone"
-												name="phone" value="" />
+												name="phone" value="${customer.phone }" />
 										</div>
 									</div>
 									<br>
@@ -137,7 +141,7 @@
 										</div>
 										<div class="col-sm-10">
 											<input type="text" class="form-control" id="email"
-												name="email" value="" />
+												name="email" value="${customer.email }" />
 										</div>
 									</div>
 									<br>
@@ -147,18 +151,18 @@
 													ty</b></label>
 										</div>
 										<div class="col-sm-10">
-											<input type="text" class="form-control" id="email"
-												name="email" value="" />
+											<input type="text" class="form-control" id="companyName"
+												name="companyName" value="${customer.companyName }" />
 										</div>
 									</div>
 									<br>
 									<div class="row">
 										<div class="col-sm-2">
-											<label for="email" class="form-label"><b>Nhu cầu</b></label>
+											<label for="demand" class="form-label"><b>Nhu cầu</b></label>
 										</div>
 										<div class="col-sm-10">
-											<input type="text" class="form-control" id="email"
-												name="email" value="" />
+											<input type="text" class="form-control" id="demand"
+												name="demand" value="${customer.demand }" />
 										</div>
 									</div>
 									<br>
@@ -171,78 +175,88 @@
 											<textarea rows="3" style="width: 100%;" name="note">${customer.note }</textarea>
 										</div>
 									</div>
-
+									<br>
 									<div class="row">
 										<div class="col-sm-2"></div>
-
 										<div class="col-sm-10">
 											<button class="btn btn-success" type="button"
-												id="btnSearchBuilding">
-												<b>Thêm khách hàng</b><i
+												id="btnCustomerCRUD">
+												<b>${customer == null ? 'Thêm khách hàng' : 'Cập nhật thông tin' }</b><i
 													class="ace-icon fa fa-arrow-right icon-on-right"></i>
 											</button>
 										</div>
 									</div>
 								</div>
 								<br>
-							</form>
+							</form:form>
 						</div>
 					</div>
 				</div>
 
-				<br>
-				<div class="row">
-					<div class="col-xs-12">
-						<!-- PAGE CONTENT BEGINS -->
+				<c:forEach items="${transactions}" var="transaction">
+					<br>
+					<div class="row">
+						<div class="col-xs-12">
+							<!-- PAGE CONTENT BEGINS -->
 
-						<div class="widget-box">
-							<div class="widget-header widget-header-blue widget-header-flat">
-								<h4 class="widget-title lighter">
-									<b>Quá trình chăm sóc khách hàng</b>
-								</h4>
+							<div class="widget-box">
+								<div class="widget-header widget-header-blue widget-header-flat">
+									<h4 class="widget-title lighter">
+										<b>${transaction.value }</b>
+									</h4>
+								</div>
+
+								<table id="simple-table widget-body"
+									class="table table-striped table-bordered table-hover">
+									<thead>
+										<tr>
+											<th>Ngày tạo</th>
+											<th>Ghi chú</th>
+										</tr>
+									</thead>
+
+									<tbody>
+										<c:set var="transtationItems"
+											value="${customerService.findTransactionsByTypeAndCustomer_Id(transaction.toString(), customer.id) }" />
+										<c:forEach items="${transtationItems }" var="item">
+											<tr>
+												<td>${item.createdDate }</td>
+												<td>${item.note }</td>
+											</tr>
+										</c:forEach>
+										<tr>
+											<td></td>
+											<td><form:form modelAttribute="model"
+													action="${transactionAddURL}" method="post"
+													id="transactionForm">
+													<div class="row">
+														<div class="col-sm-11">
+															<input type="hidden" class="form-control"
+																name="customerId" value="${customer.id}" /> <input
+																type="hidden" class="form-control" name="type"
+																value="${transaction}" /> <input type="text"
+																class="form-control" name="note" />
+														</div>
+														<div class="col-sm-1">
+															<div class="dt-buttons btn-overlap btn-group">
+																<button id="btnAddTransaction"
+																	class="dt-button buttons-colvis btn btn-white btn-primary btn-bold"
+																	type="submit">
+																	<span> <i
+																		class="fa fa-plus-circle bigger-110 purple"></i>
+																	</span>
+																</button>
+															</div>
+														</div>
+												</form:form>
+												</div></td>
+										</tr>
+									</tbody>
+								</table>
 							</div>
-
-							<table id="simple-table widget-body"
-								class="table table-striped table-bordered table-hover">
-								<thead>
-									<tr>
-										<th>Ngày tạo</th>
-										<th>Ghi chú</th>
-									</tr>
-								</thead>
-
-								<tbody>
-									<tr>
-										<td></td>
-										<td>
-											<div class="row">
-												<div class="col-sm-11">
-													<form:form action="${deleteBuildingURL}" method="post"
-														id="formIdsBuilding">
-														<input type="text" class="form-control" id="email"
-															name="email" value="" />
-													</form:form>
-												</div>
-												<div class="col-sm-1">
-													<div class="dt-buttons btn-overlap btn-group">
-														<a flag="info"
-															class="dt-button buttons-colvis btn btn-white btn-primary btn-bold"
-															data-toggle="tooltip" title="Thêm người dùng"
-															href="/spring-boot/admin/user-edit"> <span> <i
-																class="fa fa-plus-circle bigger-110 purple"></i>
-														</span>
-														</a>
-													</div>
-												</div>
-											</div>
-										</td>
-									</tr>
-								</tbody>
-							</table>
 						</div>
 					</div>
-				</div>
-
+				</c:forEach>
 
 				<div id="modal-wizard" class="modal">
 					<div class="modal-dialog">
@@ -329,177 +343,9 @@
 
 <script src="assets/js/jquery.2.1.1.min.js"></script>
 
-<!-- <![endif]-->
-
-<!--[if IE]>
-<script src="assets/js/jquery.1.11.1.min.js"></script>
-<![endif]-->
-<!-- inline scripts related to this page -->
-<script type="text/javascript">
-	jQuery(function($) {
-		var demo1 = $('select[name="
-													duallistbox_demo1[]"]')
-				.bootstrapDualListbox(
-						{
-							infoTextFiltered
-													: '<span class="label label-purple label-lg">Filtered</span>'
-						});
-		var
-													container1=demo1.bootstrapDualListbox(
-													'getContainer');
-		container1.find('.btn').addClass('btn-white
-													btn-info btn-bold');
-
-		/**var setRatingColors=function()
-													{
-			$(this).find('.star-on-png,.star-half-png').addClass('orange2').removeClass('grey');
-			$(this).find('.star-off-png').removeClass('orange2').addClass('grey');
-		}*/
-		$('.rating').raty({
-			'cancel' :
-													true,
-			'half' :
-													true,
-			'starType' : 'i'
-		/**,
-		
-		'click':
-													function() {
-			setRatingColors.call(this);
-		},
-		'mouseover':
-													function() {
-			setRatingColors.call(this);
-		},
-		'mouseout':
-													function() {
-			setRatingColors.call(this);
-		}*/
-		})//.find('i:not(.star-raty)').addClass('grey');
-
-		//////////////////
-		//select2
-		$('.select2').css('width', '200px').select2({
-			allowClear
-													:
-													true
-		})
-		$('#select2-multiple-style .btn').on('click', function(e) {
-			var
-													target=$(this).find( 'input[type=radio] ');
-			var
-													which=parseInt(target.val()); if (which==
-													2)
-				$('.select2').addClass('tag-input-style');
-			else
-				$('.select2').removeClass('tag-input-style');
-		});
-
-		//////////////////
-		$('.multiselect')
-				.multiselect(
-						{
-							enableFiltering
-													: true,
-							buttonClass : 'btn btn-white
-													btn-primary',
-							templates : {
-								button
-													: '<button type="button" class="multiselect dropdown-toggle" data-toggle="dropdown"></button>',
-								ul
-													: '<ul class="multiselect-container dropdown-menu"></ul>',
-								filter
-													: '<li class="multiselect-item filter"><div class="input-group"><span class="input-group-addon"><i class="fa fa-search"></i></span><input class="form-control multiselect-search" type="text"></div></li>',
-								filterClearBtn
-													: '<span class="input-group-btn"><button class="btn btn-default btn-white btn-grey multiselect-clear-filter" type="button"><i class="fa fa-times-circle red2"></i></button></span>',
-								li
-													: '<li><a href="javascript:void(0);"><label></label></a></li>',
-								divider
-													: '<li class="multiselect-item divider"></li>',
-								liGroup
-													: '<li class="multiselect-item group"><label class="multiselect-group"></label></li>'
-							}
-						});
-
-		///////////////////
-
-		//typeahead.js
-		//example
-													taken from plugin's page at:
-													https://twitter.github.io/typeahead.js/examples/
-		var
-													substringMatcher=function(strs) {
-			return function
-													findMatches(q, cb) {
-				var
-													matches, substringRegex;
-
-				// an array that will be
-													populated with substring matches matches=[]; // regex used
-													to determine if a string contains the
-													substring `q`
-				substrRegex=new
-													RegExp(q, 'i');
-
-				// iterate through the pool of
-													strings and for any string that
-				// contains the
-													substring `q`, add it to
-													the `matches` array
-				$.each(strs, function(i, str) {
-					if (substrRegex.test(str)) {
-						// the
-													typeahead jQuery plugin expects suggestions to
-													a
-						// JavaScript object, refer to typeahead docs for
-													more info matches.push({
-							value :
-													str
-						});
-					}
-				});
-
-				cb(matches);
-			}
-		}
-
-		$('input.typeahead').typeahead({
-			hint
-													: true,
-			highlight : true,
-			minLength
-													: 1
-		}, {
-			name : 'states',
-			displayKey
-													: 'value',
-			source :
-													substringMatcher(ace.vars['US_STATES'])
-		});
-
-		///////////////
-
-		//in
-													ajax mode, remove remaining elements before leaving
-													page
-		$(document).one(
-				'ajaxloadstart.page',
-				function(e) {
-					$('[class*=select2]
-													').remove();
-					$('select[name="duallistbox_demo1[]"]')
-							.bootstrapDualListbox('destroy');
-					$('.rating').raty('destroy');
-					$('.multiselect').multiselect('destroy');
-				});
-
-	});
-
-	$('#buildingCRUD').click(function(e) {
+<script>
+	$('#btnCustomerCRUD').click(function(e) {
 		e.preventDefault();
-		$("#formFieldBuilding").submit();
-
+		$("#customerFormCRUD").submit();
 	});
-
-													
-													</script>
+</script>

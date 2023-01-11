@@ -2,7 +2,7 @@ customer<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="/common/taglib.jsp"%>
 <c:url var="staffList" value="/api/staffs-list" />
-<c:url var="buildingStaffList" value="/api/staffs?buildingId=" />
+<c:url var="buildingStaffList" value="/api/building-staffs?buildingId=" />
 <c:url var="buildingSearchUrl" value="/admin/building-search" />
 
 <div class="main-container" id="main-container">

@@ -37,7 +37,7 @@ public class BuildingAPI {
 		return userService.findAllStaffs();
 	}
 	
-	@GetMapping("/api/staffs")
+	@GetMapping("/api/building-staffs")
 	public List<UserDTO> findStaffByBuildingId(@RequestParam("buildingId") Long buildingId) {
 		return userService.findStaffsByBuildingId(buildingId);
 	}

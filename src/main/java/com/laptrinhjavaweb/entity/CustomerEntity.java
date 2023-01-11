@@ -7,6 +7,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -14,10 +16,13 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "customer")
 public class CustomerEntity extends BaseEntity {
-	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval=true)
+	@OneToMany(mappedBy = "staff", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<TransactionEntity> transactions = new ArrayList<>();
 	
-    @ManyToMany(mappedBy = "customers", fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "assignmentcustomer",
+            joinColumns = @JoinColumn(name = "customerid", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "userid", nullable = false))
     private List<UserEntity> users = new ArrayList<>();
 
 	@Column(name = "fullname")
@@ -28,6 +33,51 @@ public class CustomerEntity extends BaseEntity {
 
 	@Column(name = "email")
 	private String email;
+
+	@Column(name = "companyname")
+	private String companyName;
+
+	@Column(name = "demand")
+	private String demand;
+
+	@Column(name = "note")
+	private String note;
+	
+	@Column(name = "status")
+	private String status;
+
+
+	public List<UserEntity> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<UserEntity> users) {
+		this.users = users;
+	}
+
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
+	public String getDemand() {
+		return demand;
+	}
+
+	public void setDemand(String demand) {
+		this.demand = demand;
+	}
+
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
+	}
 
 	public List<TransactionEntity> getTransactions() {
 		return transactions;

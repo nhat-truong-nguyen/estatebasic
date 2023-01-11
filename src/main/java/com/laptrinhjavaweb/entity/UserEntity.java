@@ -10,18 +10,18 @@ public class UserEntity extends BaseEntity {
 
     private static final long serialVersionUID = -4988455421375043688L;
     
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval=true)
+	private List<TransactionEntity> transactions = new ArrayList<>();
+    
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id", nullable = false),
             inverseJoinColumns = @JoinColumn(name = "role_id", nullable = false))
     private List<RoleEntity> roles = new ArrayList<>();
     
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "assignmentcustomer",
-            joinColumns = @JoinColumn(name = "userid", nullable = false),
-            inverseJoinColumns = @JoinColumn(name = "roleid", nullable = false))
-    private List<CustomerEntity> customers = new ArrayList<>();
-    
+	@ManyToMany(mappedBy = "users", fetch = FetchType.LAZY)
+	private List<CustomerEntity> customers = new ArrayList<>();
+ 
     @ManyToMany(mappedBy="users", fetch=FetchType.LAZY)
     List<BuildingEntity> buildings;
 

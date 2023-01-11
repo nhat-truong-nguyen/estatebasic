@@ -44,6 +44,26 @@ public class BuildingRepositoryCustomImpl implements BuildingRepositoryCustom {
 		Query query = entityManager.createQuery(finalQuery.toString(), BuildingEntity.class);
 		return query.getResultList();
 	}
+	
+	public void buildQueryWithJoin(BuildingSearchRequest searchModel, StringBuilder whereQuery,
+			StringBuilder joinQuery) {
+		if (searchModel.getRentAreaFrom() != null || searchModel.getRentAreaTo() != null) {
+			joinQuery.append("\nJOIN b.rentAreas ra");
+		}
+
+		if (searchModel.getRentAreaFrom() != null) {
+			whereQuery.append("\nAND ra.value >= ").append(searchModel.getRentAreaFrom());
+		}
+
+		if (searchModel.getRentAreaTo() != null) {
+			whereQuery.append("\nAND ra.value <= ").append(searchModel.getRentAreaTo());
+		}
+
+		if (searchModel.getStaffId() != null) {
+			joinQuery.append("\nJOIN b.users u");
+			whereQuery.append("\nAND u.id = ").append(searchModel.getStaffId());
+		}
+	}
 
 	private void buildCommonQuery(BuildingSearchRequest searchModel,StringBuilder whereQuery) {
 		Field[] fields = BuildingSearchRequest.class.getDeclaredFields();
@@ -96,26 +116,6 @@ public class BuildingRepositoryCustomImpl implements BuildingRepositoryCustom {
 			whereQuery.append("\nAND (b.type LIKE\t");
 			searchModel.getRentType().replaceAll((type) -> ("'%" + type + "%'"));
 			whereQuery.append(String.join("\nOR b.type LIKE\t", searchModel.getRentType())).append(")");
-		}
-	}
-
-	public void buildQueryWithJoin(BuildingSearchRequest searchModel, StringBuilder whereQuery,
-			StringBuilder joinQuery) {
-		if (searchModel.getRentAreaFrom() != null || searchModel.getRentAreaTo() != null) {
-			joinQuery.append("\nJOIN b.rentAreas ra");
-		}
-
-		if (searchModel.getRentAreaFrom() != null) {
-			whereQuery.append("\nAND ra.value >= ").append(searchModel.getRentAreaFrom());
-		}
-
-		if (searchModel.getRentAreaTo() != null) {
-			whereQuery.append("\nAND ra.value <= ").append(searchModel.getRentAreaTo());
-		}
-
-		if (searchModel.getStaffId() != null) {
-			joinQuery.append("\nJOIN b.users u");
-			whereQuery.append("\nAND u.id = ").append(searchModel.getStaffId());
 		}
 	}
 }

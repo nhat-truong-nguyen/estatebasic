@@ -27,7 +27,7 @@ public class UserConverter {
         return result;
     }
     
-	public List<UserDTO> toListBuildingDTO(List<UserEntity> listUserEntity) {
+	public List<UserDTO> toListUserDTO(List<UserEntity> listUserEntity) {
 		List<UserDTO> listUsers = new ArrayList<UserDTO>();
 		
 		listUsers = listUserEntity.stream().map(entity -> this.convertToDto(entity))

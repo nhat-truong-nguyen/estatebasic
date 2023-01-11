@@ -154,11 +154,16 @@ public class UserService implements IUserService {
     
 	@Override
 	public List<UserDTO> findAllStaffs() {
-		return userConverter.toListBuildingDTO(userRepository.findUsersByRoles_Code("user"));
+		return userConverter.toListUserDTO(userRepository.findUsersByRoles_Code("user"));
 	}
 
 	@Override
 	public List<UserDTO> findStaffsByBuildingId(Long buildingId) {
-		return  userConverter.toListBuildingDTO(userRepository.findStaffsByBuildings_Id(buildingId));
+		return  userConverter.toListUserDTO(userRepository.findStaffsByBuildings_Id(buildingId));
+	}
+	
+	@Override
+	public List<UserDTO> findStaffsByCustomerId(Long customerId) {
+		return  userConverter.toListUserDTO(userRepository.findStaffsByCustomers_Id(customerId));
 	}
 }

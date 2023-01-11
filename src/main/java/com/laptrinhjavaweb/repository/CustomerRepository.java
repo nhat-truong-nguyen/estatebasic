@@ -10,4 +10,5 @@ import com.laptrinhjavaweb.entity.CustomerEntity;
 @Repository
 public interface CustomerRepository extends JpaRepository<CustomerEntity, Long>{
 	List<CustomerEntity> findCustomersByFullNameLike(String name);
+	void deleteByIdIn(Long[] ids);
 }

@@ -20,7 +20,7 @@
 					</div>
 					<button class="DTTT_button btn btn-white btn-primary  btn-bold"
 						title="" tabindex="0" aria-controls="dynamic-table"
-						data-original-title="Print view" id="btnDeleteBuilding">
+						data-original-title="Print view" id="btnDeleteCustomer">
 						<span><i class="ace-icon fa fa-trash-o"></i></span>
 					</button>
 				</div>
@@ -33,10 +33,14 @@
 					<th class="center"><label class="pos-rel"> <input
 							type="checkbox" class="ace" /> <span class="lbl"></span>
 					</label></th>
-					<th>Ngày</th>
 					<th>Tên</th>
+					<th>Nhân viên quản lý</th>
+					<th>Di động</th>
 					<th>Email</th>
-					<th>Số điện thoại</th>
+					<th>Nhu cầu</th>
+					<th>Người nhập</th>
+					<th>Ngày nhập</th>
+					<th>Tình trạng</th>
 					<th>Thao tác</th>
 				</tr>
 			</thead>
@@ -44,17 +48,21 @@
 			<tbody>
 
 				<form:form action="${deleteCustomerURL}" method="post"
-					id="formIdsBuilding">
+					id="formIdsCustomer">
 					<c:forEach items="${customers}" var="customer">
 						<tr>
 							<td class="center"><label class="pos-rel"> <input
 									type="checkbox" class="ace" name="ids" value="${customer.id}" />
 									<span class="lbl"></span>
 							</label></td>
-							<td>${customer.createdDate }</td>
 							<td>${customer.fullName }</td>
-							<td>${customer.email }</td>
+							<td>${customer.managerStaffs }</td>
 							<td>${customer.phone }</td>
+							<td>${customer.email }</td>
+							<td>${customer.demand }</td>
+							<td>${customer.modifiedBy }</td>
+							<td>${customer.modifiedDate }</td>
+							<td>${customer.status }</td>
 							<td>
 								<div class="hidden-sm hidden-xs btn-group">
 
@@ -81,7 +89,7 @@
 
 <!-- /.row -->
 <form action="${assignCustomerURl}" method="post">
-	<input type="hidden" name="buildingId" id="buildingId" value="" />
+	<input type="hidden" name="customerId" id="customerId" value="" />
 	<div id="my-modal" class="modal fade" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
