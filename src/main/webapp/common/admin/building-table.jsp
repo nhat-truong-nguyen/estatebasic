@@ -70,11 +70,13 @@
 							<td>
 								<div class="hidden-sm hidden-xs btn-group">
 
-									<button href="#my-modal" role="button"
-										class="btn btn-xs btn-success btnStaffList"
-										data-toggle="modal" type="button" value="${building.id}">
-										<i class="ace-icon fa fa-check bigger-120"></i>
-									</button>
+									<security:authorize access="hasRole('MANAGER')">
+										<button href="#my-modal" role="button"
+											class="btn btn-xs btn-success btnStaffList"
+											data-toggle="modal" type="button" value="${building.id}">
+											<i class="ace-icon fa fa-check bigger-120"></i>
+										</button>
+									</security:authorize>
 
 									<a class="btn btn-xs btn-info"
 										href="${updateBuildingUrl}?id=${building.id }"> <i
@@ -100,7 +102,9 @@
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true">&times;</button>
-					<h3 class="smaller lighter blue no-margin"><b>Danh sách nhân viên giao toà nhà quản lý</b></h3>
+					<h3 class="smaller lighter blue no-margin">
+						<b>Danh sách nhân viên giao toà nhà quản lý</b>
+					</h3>
 				</div>
 
 				<div class="modal-body">
