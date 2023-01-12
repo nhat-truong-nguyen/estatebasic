@@ -54,7 +54,7 @@ public class BuildingController {
 	@GetMapping("/building-search")
 	public ModelAndView buildingSearchList(@ModelAttribute("searchModel") BuildingSearchRequest searchModel) {
 		if (SecurityUtils.getAuthorities().contains("ROLE_STAFF")) {
-			searchModel.setStaffId(SecurityUtils.getPrincipal().getId);
+			searchModel.setStaffId(SecurityUtils.getPrincipal().getId());
 		}
 		
 		ModelAndView mav = new ModelAndView("admin/building-list");
