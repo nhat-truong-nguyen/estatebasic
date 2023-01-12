@@ -13,4 +13,5 @@ public interface IBuildingService {
 	void saveOrUpdate(BuildingDTO dto);
 	List<BuildingSearchResponse> findBuildings(BuildingSearchRequest searchModel);
 	void assignBuilding(List<Long> staffIds, Long buildingId);
+	List<BuildingSearchResponse> findBuildingsByUsers_Id(Long id);
 }

@@ -1,5 +1,6 @@
 package com.laptrinhjavaweb.controller.admin;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import com.laptrinhjavaweb.enums.BuildingTypeEnum;
 import com.laptrinhjavaweb.enums.DistrictEnum;
 import com.laptrinhjavaweb.model.request.BuildingSearchRequest;
 import com.laptrinhjavaweb.model.response.BuildingSearchResponse;
+import com.laptrinhjavaweb.security.utils.SecurityUtils;
 import com.laptrinhjavaweb.service.IBuildingService;
 import com.laptrinhjavaweb.service.impl.UserService;
 
@@ -34,15 +36,27 @@ public class BuildingController {
 
 	@GetMapping("/building-list")
 	public ModelAndView buildingSearchForm(@ModelAttribute("searchModel") BuildingSearchRequest searchModel) {
+		List<BuildingSearchResponse> listBuildings = new ArrayList<BuildingSearchResponse>();
+		
+		if (SecurityUtils.getAuthorities().contains("ROLE_STAFF")) {
+			listBuildings = buildingService.findBuildingsByUsers_Id(SecurityUtils.getPrincipal().getId());
+		} else {
+			listBuildings = buildingService.findAll();
+		}
+		
 		ModelAndView mav = new ModelAndView("admin/building-list");
 		mav.addObject("searchModel", searchModel).addObject("districts", DistrictEnum.values())
 				.addObject("rentTypes", BuildingTypeEnum.values()).addObject("staffs", userService.findAllStaffs())
-				.addObject("buildings", buildingService.findAll());
+				.addObject("buildings", listBuildings);
 		return mav;
 	}
 
 	@GetMapping("/building-search")
 	public ModelAndView buildingSearchList(@ModelAttribute("searchModel") BuildingSearchRequest searchModel) {
+		if (SecurityUtils.getAuthorities().contains("ROLE_STAFF")) {
+			searchModel.setStaffId(SecurityUtils.getPrincipal().getId());
+		}
+		
 		ModelAndView mav = new ModelAndView("admin/building-list");
 		List<BuildingSearchResponse> buildings = buildingService.findBuildings(searchModel);
 		mav.addObject("searchModel", searchModel).addObject("districts", DistrictEnum.values())
@@ -51,7 +65,7 @@ public class BuildingController {
 		return mav;
 	}
 
-	@GetMapping("/building-field-form")
+	@GetMapping("/building-save")
 	public ModelAndView buildingFieldForm() {
 		ModelAndView mav = new ModelAndView("admin/building-form");
 		mav.addObject("districts", DistrictEnum.values()).addObject("rentTypes", BuildingTypeEnum.values());

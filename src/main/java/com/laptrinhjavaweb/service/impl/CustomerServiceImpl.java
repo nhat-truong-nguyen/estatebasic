@@ -54,6 +54,11 @@ public class CustomerServiceImpl implements ICustomerService {
 	}
 	
 	@Override
+	public List<CustomerSearchResponse> findCustomersByUser_Id(Long id) {
+		return customerConverter.toListCustomerSearchResponse(customerRepository.findCustomersByUsers_Id(id));
+	}
+	
+	@Override
 	public List<CustomerSearchResponse> findAll() {
 		return customerConverter.toListCustomerSearchResponse(customerRepository.findAll());
 	}

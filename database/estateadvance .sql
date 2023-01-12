@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jan 11, 2023 at 02:40 PM
+-- Generation Time: Jan 12, 2023 at 03:45 PM
 -- Server version: 8.0.16
 -- PHP Version: 7.4.26
 
@@ -34,6 +34,16 @@ CREATE TABLE IF NOT EXISTS `assignmentbuilding` (
   KEY `FKedql9q7wl9jh4qpk8idb4nko3` (`userid`),
   KEY `FKkk3mdegrmfcdlsxqds1m6q238` (`buildingid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `assignmentbuilding`
+--
+
+INSERT INTO `assignmentbuilding` (`buildingid`, `userid`) VALUES
+(1, 2),
+(2, 2),
+(2, 3),
+(3, 2);
 
 -- --------------------------------------------------------
 
@@ -101,16 +111,16 @@ CREATE TABLE IF NOT EXISTS `building` (
   `ward` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `waterfee` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `building`
 --
 
 INSERT INTO `building` (`id`, `createdby`, `createddate`, `modifiedby`, `modifieddate`, `brokeragefee`, `carfee`, `decorationtime`, `deposit`, `direction`, `district`, `electricityfee`, `floorarea`, `image`, `level`, `linkofbuilding`, `managername`, `managerphone`, `map`, `motorbikefee`, `name`, `note`, `numberofbasement`, `overtimefee`, `payment`, `rentareadescription`, `rentprice`, `rentpricedescription`, `renttime`, `servicefee`, `street`, `structure`, `type`, `ward`, `waterfee`) VALUES
-(1, NULL, NULL, NULL, NULL, 0.7, '', '', '', '', 'QUAN_1', '', 500, NULL, '', NULL, 'nguyen van b', '01234567890', NULL, '', 'Nam Giao Building Tower', '', 2, '4', '', '290m2(lầu lừng), 150m2(lầu 4)', 15, '15 triệu/m2', '', '4', '59 phan xích long', '', 'TANG_TRET,NGUYEN_CAN', 'Phường 2', NULL),
-(2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'QUAN_2', NULL, 650, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ACM Tower', NULL, 2, NULL, NULL, NULL, 18, '18 triệu/m2', NULL, NULL, '96 cao thắng', NULL, 'NGUYEN_CAN', 'Phường 4', NULL),
-(3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'QUAN_1', NULL, 200, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Alpha 2 Building Tower', NULL, 1, NULL, NULL, NULL, 20, '20 triệu/m2', NULL, NULL, '153 nguyễn đình chiểu', NULL, 'NOI_THAT', 'Phường 6', NULL),
+(1, NULL, NULL, 'admin', '2023-01-12 22:32:15', 0.7, '', '', '', '', 'QUAN_1', '', 500, NULL, '', NULL, 'nguyen van b', '01234567890', NULL, '', 'Nam Giao Building Tower', '', 2, '4', '', '290m2(lầu lừng), 150m2(lầu 4)', 15, '15 triệu/m2', '', '4', '59 phan xích long', '', 'TANG_TRET,NGUYEN_CAN', 'Phường 2', NULL),
+(2, NULL, NULL, 'admin', '2023-01-12 22:32:20', NULL, NULL, NULL, NULL, NULL, 'QUAN_2', NULL, 650, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ACM Tower', NULL, 2, NULL, NULL, NULL, 18, '18 triệu/m2', NULL, NULL, '96 cao thắng', NULL, 'NGUYEN_CAN', 'Phường 4', NULL),
+(3, NULL, NULL, 'admin', '2023-01-12 22:32:24', NULL, NULL, NULL, NULL, NULL, 'QUAN_1', NULL, 200, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Alpha 2 Building Tower', NULL, 1, NULL, NULL, NULL, 20, '20 triệu/m2', NULL, NULL, '153 nguyễn đình chiểu', NULL, 'NOI_THAT', 'Phường 6', NULL),
 (4, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'QUAN_1', NULL, 500, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Nam Giao Building Tower', NULL, 2, NULL, NULL, NULL, 15, '15 triệu/m2', NULL, NULL, '59 phan xích long', NULL, 'TANG_TRET,NGUYEN_CAN', 'Phường 2', NULL),
 (5, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'QUAN_2', NULL, 650, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ACM Tower', NULL, 2, NULL, NULL, NULL, 18, '18 triệu/m2', NULL, NULL, '96 cao thắng', NULL, 'NGUYEN_CAN', 'Phường 4', NULL);
 
@@ -142,7 +152,7 @@ CREATE TABLE IF NOT EXISTS `customer` (
 --
 
 INSERT INTO `customer` (`id`, `createdby`, `createddate`, `modifiedby`, `modifieddate`, `companyname`, `demand`, `email`, `fullname`, `note`, `phone`, `status`) VALUES
-(1, NULL, NULL, 'admin', '2023-01-11 21:38:28', 'ACB', 'Tầng trệt 70m2', 'nguyenvana@gmail.com', 'Nguyen Van A', 'Chua co ghi chu', '01234567', NULL);
+(1, NULL, NULL, 'admin', '2023-01-12 22:44:21', 'ACB', 'Tầng trệt 70m2', 'nguyenvana@gmail.com', 'Nguyen Van A', 'Chua co ghi chu', '01234567', NULL);
 
 -- --------------------------------------------------------
 
@@ -161,7 +171,7 @@ CREATE TABLE IF NOT EXISTS `rentarea` (
   `buildingid` bigint(20) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FKqhqoxlvm1iblaew5s0v8n3ut4` (`buildingid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -187,8 +197,8 @@ CREATE TABLE IF NOT EXISTS `role` (
 --
 
 INSERT INTO `role` (`id`, `createdby`, `createddate`, `modifiedby`, `modifieddate`, `code`, `name`) VALUES
-(1, NULL, NULL, NULL, NULL, 'ADMIN', 'Quản trị hệ thống'),
-(2, NULL, NULL, NULL, NULL, 'USER', 'người dùng');
+(1, NULL, NULL, NULL, NULL, 'MANAGER', 'Quản lý'),
+(2, NULL, NULL, NULL, NULL, 'STAFF', 'Nhân viên');
 
 -- --------------------------------------------------------
 

@@ -44,6 +44,11 @@ public class BuildingService implements IBuildingService {
 	}
 	
 	@Override
+	public  List<BuildingSearchResponse> findBuildingsByUsers_Id(Long id) {
+		return buildingConverter.toListBuildingDTO(buildingRepository.findBuildingsByUsers_Id(id));
+	}
+	
+	@Override
 	public BuildingDTO findById(Long id) {
 		return buildingConverter.toBuildingDTORequest(buildingRepository.findOne(id));
 	}

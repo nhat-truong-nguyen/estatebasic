@@ -1,4 +1,4 @@
-customer<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="/common/taglib.jsp"%>
 <c:url var="staffList" value="/api/staffs-list" />
@@ -215,18 +215,20 @@ customer<%@ page language="java" contentType="text/html; charset=UTF-8"
 											<form:input type="text" class="form-control"
 												id="managerPhone" path="managerPhone" />
 										</div>
-										<div class="col-sm-4">
-											<label for="staffId" class="form-label"><b>Chọn
-													nhân viên phụ trách</b></label><br>
-											<form:select path="staffId" id="staffId">
+										<security:authorize access="hasRole('MANAGER')">
+											<div class="col-sm-4">
+												<label for="staffId" class="form-label"><b>Chọn
+														nhân viên phụ trách</b></label><br>
+												<form:select path="staffId" id="staffId">
 
-												<option value="">--- Chọn nhân viên phụ trách ---</option>
+													<option value="">--- Chọn nhân viên phụ trách ---</option>
 
-												<c:forEach items="${staffs}" var="staff">
-													<form:option value="${staff.id }">${staff.fullName }</form:option>
-												</c:forEach>
-											</form:select>
-										</div>
+													<c:forEach items="${staffs}" var="staff">
+														<form:option value="${staff.id }">${staff.fullName }</form:option>
+													</c:forEach>
+												</form:select>
+											</div>
+										</security:authorize>
 									</div>
 								</div>
 								<br>

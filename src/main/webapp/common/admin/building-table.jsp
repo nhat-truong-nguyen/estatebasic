@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="/common/taglib.jsp"%>
-<c:url var="addBuildingURL" value="/admin/building-field-form" />
+<c:url var="addBuildingURL" value="/admin/building-save" />
 <c:url var="updateBuildingUrl" value="/admin/building-update" />
 <c:url var="deleteBuildingURL" value="/admin/building-delete" />
 <c:url var="assignBuilding" value="/admin/assign-building" />

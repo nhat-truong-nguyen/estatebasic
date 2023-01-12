@@ -154,7 +154,7 @@ public class UserService implements IUserService {
     
 	@Override
 	public List<UserDTO> findAllStaffs() {
-		return userConverter.toListUserDTO(userRepository.findUsersByRoles_Code("user"));
+		return userConverter.toListUserDTO(userRepository.findUsersByRoles_Code("staff"));
 	}
 
 	@Override

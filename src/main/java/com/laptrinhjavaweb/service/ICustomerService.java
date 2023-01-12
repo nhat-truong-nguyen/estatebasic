@@ -25,4 +25,6 @@ public interface ICustomerService {
 	void addTransaction(TransactionRequest dto);
 
 	List<TransactionDTO> findTransactionsByTypeAndCustomer_Id(String type, Long userId);
+
+	List<CustomerSearchResponse> findCustomersByUser_Id(Long id);
 }

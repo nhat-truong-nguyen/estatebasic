@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="/common/taglib.jsp"%>
-<c:url var="addCustomerURL" value="/admin/customer-form" />
+<c:url var="addCustomerURL" value="/admin/customer-save" />
 <c:url var="updateCustomerURl" value="/admin/customer-update" />
 <c:url var="deleteCustomerURL" value="/admin/customer-delete" />
 <c:url var="assignCustomerURl" value="/admin/assign-customer" />
